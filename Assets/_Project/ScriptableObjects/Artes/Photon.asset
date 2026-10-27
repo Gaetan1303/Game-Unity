@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a7dfae95900364c943f27d938d8587, type: 3}
+  m_Name: Photon
+  m_EditorClassIdentifier: Assembly-CSharp::ArteData
+  displayName: Photon
+  description: "Cercle de lumi\xE8re qui explose sur la cible."
+  kind: 1
+  tpCost: 14
+  cooldown: 2.5
+  windup: 0.4
+  recovery: 0.4
+  damage: 30
+  knockback: 10
+  poise: 40
+  launch: 0
+  knockdown: 0
+  hits: 1
+  hitInterval: 0.12
+  range: 12
+  radius: 3
+  projectileSpeed: 14
+  blastDelay: 0.6
+  healPercent: 0.35
+  fxSprite: magic_01
+  tint: {r: 1, g: 0.95, b: 0.5, a: 1}

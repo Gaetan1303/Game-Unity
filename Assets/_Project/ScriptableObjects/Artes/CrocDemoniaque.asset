@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a7dfae95900364c943f27d938d8587, type: 3}
+  m_Name: CrocDemoniaque
+  m_EditorClassIdentifier: Assembly-CSharp::ArteData
+  displayName: "Croc d\xE9moniaque"
+  description: Onde de choc rasante qui traverse les ennemis.
+  kind: 0
+  tpCost: 8
+  cooldown: 0.8
+  windup: 0.15
+  recovery: 0.35
+  damage: 22
+  knockback: 12
+  poise: 30
+  launch: 0
+  knockdown: 0
+  hits: 1
+  hitInterval: 0.12
+  range: 7
+  radius: 0.8
+  projectileSpeed: 14
+  blastDelay: 0.5
+  healPercent: 0.35
+  fxSprite: slash_03
+  tint: {r: 0.75, g: 0.2, b: 1, a: 1}

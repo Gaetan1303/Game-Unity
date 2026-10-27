@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a7dfae95900364c943f27d938d8587, type: 3}
+  m_Name: TempeteDeLames
+  m_EditorClassIdentifier: Assembly-CSharp::ArteData
+  displayName: "Temp\xEAte de lames"
+  description: "Rafale de coups autour du h\xE9ros, finit par une mise \xE0 terre."
+  kind: 2
+  tpCost: 12
+  cooldown: 2.5
+  windup: 0.1
+  recovery: 0.4
+  damage: 8
+  knockback: 4
+  poise: 30
+  launch: 0
+  knockdown: 1
+  hits: 5
+  hitInterval: 0.12
+  range: 7
+  radius: 2.2
+  projectileSpeed: 14
+  blastDelay: 0.5
+  healPercent: 0.35
+  fxSprite: twirl_01
+  tint: {r: 0.8, g: 0.85, b: 1, a: 1}
