@@ -14,6 +14,7 @@ public class AllyAI : MonoBehaviour
     public float maxTp = 60f;
     public ArteData arte;            // Mage : arte offensif, Healer : arte de soin
     public bool Attacking { get; private set; }
+    public bool Casting { get; private set; }
 
     CharacterController cc;
     Health hp;
@@ -128,8 +129,10 @@ public class AllyAI : MonoBehaviour
     IEnumerator CastArte(ArteData a, Transform t)
     {
         busy = true; Attacking = true;
+        Casting = true;
         tp -= a.tpCost;
         yield return ArteExecutor.Run(a, Team.Player, transform, t, 0.8f, null, null);
+        Casting = false;
         nextAct = Time.time + a.cooldown + (role == AllyRole.Healer ? 4f : 1.2f);
         Attacking = false; busy = false;
     }

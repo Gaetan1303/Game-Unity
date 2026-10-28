@@ -89,8 +89,16 @@ public class PlayerController : MonoBehaviour
         if (inp.y > 0.5f) return ArteDir.Up;
         if (inp.y < -0.5f) return ArteDir.Down;
         float s;
-        if (tgt != null) { float dx = tgt.position.x - transform.position.x; s = Mathf.Abs(dx) > 0.05f ? Mathf.Sign(dx) : 1f; }
-        else s = transform.forward.x >= 0f ? 1f : -1f;
+        if (tgt != null)
+        {
+            float screenDx = Vector3.Dot(tgt.position - transform.position, CombatUtil.ScreenRight);
+            s = Mathf.Abs(screenDx) > 0.05f ? Mathf.Sign(screenDx) : 1f;
+        }
+        else
+        {
+            float screenFacing = CombatUtil.ScreenFacingDot(transform);
+            s = Mathf.Abs(screenFacing) > 0.01f ? Mathf.Sign(screenFacing) : 1f;
+        }
         return inp.x * s > 0.5f ? ArteDir.Forward : ArteDir.Neutral;
     }
 
@@ -148,7 +156,8 @@ public class PlayerController : MonoBehaviour
                 Vector3 L = tgt.position - transform.position; L.y = 0;
                 float dist = L.magnitude;
                 Vector3 Ld = dist > 0.01f ? L / dist : transform.forward;
-                float s = Mathf.Abs(Ld.x) > 0.05f ? Mathf.Sign(Ld.x) : 1f;
+                float screenDx = Vector3.Dot(Ld, CombatUtil.ScreenRight);
+                float s = Mathf.Abs(screenDx) > 0.05f ? Mathf.Sign(screenDx) : 1f;
                 float along = inp.x * s;                  // + = vers la cible
                 if (along > 0f && dist < 1.4f) along = 0f;
                 move = Ld * along * moveSpeed * mul;

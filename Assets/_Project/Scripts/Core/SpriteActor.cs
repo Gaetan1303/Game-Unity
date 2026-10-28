@@ -49,6 +49,12 @@ public abstract class SpriteActor : MonoBehaviour
         hp.OnDied += () => { dead = true; };
     }
 
+    protected void SetBaseFacing(bool facesRight)
+    {
+        baseFacesRight = facesRight;
+        FacingRight = facesRight;
+    }
+
     protected static Sprite Load(string path)
     {
         var s = Resources.Load<Sprite>(path);
@@ -65,8 +71,9 @@ public abstract class SpriteActor : MonoBehaviour
         if (cam != null) { Vector3 f = cam.transform.forward; f.y = 0; if (f.sqrMagnitude > 0.001f) yaw = Quaternion.LookRotation(f); }
         visual.rotation = yaw;
 
-        float fx = transform.forward.x;
-        if (fx > 0.25f) FacingRight = true; else if (fx < -0.25f) FacingRight = false;
+        float screenFacing = CombatUtil.ScreenFacingDot(transform);
+        if (screenFacing > 0.01f) FacingRight = true;
+        else if (screenFacing < -0.01f) FacingRight = false;
         sr.flipX = FacingRight != baseFacesRight;
 
         extraOffset = Vector3.zero;

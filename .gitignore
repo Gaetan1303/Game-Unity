@@ -12,3 +12,6 @@
 *.user
 *.pidb.meta
 *.pdb.meta
+.venv-1
+.venv
+nettoyage/

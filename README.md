@@ -30,6 +30,7 @@ Manette : stick = ligne, X = attaque, B = technique, A = saut, LT = garde, LB = 
 
 ## Assets (CC0)
 Héros démon (OpenGameArt), monstres/décors Tiny Dungeon et effets Particle Pack (Kenney). Voir `Assets/_Project/CREDITS.md`.
+Les sprites pixel art partagent 24 pixels par unité : les personnages d'environ 48 px restent proches de 2 unités et les tuiles de 16 px gardent la même densité. Le filtrage est au plus proche voisin ; les effets haute résolution restent bilinéaires.
 
 ## Pas encore fait
 Mystic arte d'Overlimit, menu (équipement/stratégie/objets), carte du monde et sauvegarde, donjons à plusieurs salles, changement de personnage contrôlé.

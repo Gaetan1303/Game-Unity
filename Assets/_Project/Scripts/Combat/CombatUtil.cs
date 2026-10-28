@@ -4,6 +4,20 @@ using UnityEngine;
 public static class CombatUtil
 {
     public const float VerticalTolerance = 2.6f;
+
+    public static Vector3 ScreenRight
+    {
+        get
+        {
+            var cam = Camera.main;
+            Vector3 right = cam != null ? cam.transform.right : Vector3.right;
+            right.y = 0f;
+            return right.sqrMagnitude > 0.0001f ? right.normalized : Vector3.right;
+        }
+    }
+
+    public static float ScreenFacingDot(Transform actor) => Vector3.Dot(actor.forward, ScreenRight);
+
     /// <summary>(cible, dégâts, dégâts réellement infligés)</summary>
     public static event System.Action<Health, DamageInfo, float> HitLanded;
 
