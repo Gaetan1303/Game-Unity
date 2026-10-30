@@ -15,3 +15,8 @@
 .venv-1
 .venv
 nettoyage/
+
+# AssetPack : essais intermédiaires ComfyUI
+AssetPack/comfy_output/_variants/
+AssetPack/tools/__pycache__/
+__pycache__/

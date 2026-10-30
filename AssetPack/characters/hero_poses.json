@@ -1,0 +1,662 @@
+{
+ "_doc": "Poses de départ pour OpenPose (angles en degrés depuis 'droit vers le bas', + = vers l'avant/droite). Édite puis relance tools/make_pose_guides.py. 'desc' sert de fin de prompt.",
+ "geometry": {
+  "canvas": 768,
+  "figure_height": 0.75,
+  "baseline": 0.92,
+  "_note": "personnage debout = 75% du canvas ; 768 px <-> 64 px de sprite => 576/12 = 48 px de haut (2 unités à PPU 24)"
+ },
+ "frames": {
+  "idle_0": {
+   "desc": "standing idle, relaxed, sword carried low in right hand",
+   "torso": 0,
+   "head": 0,
+   "hip": [
+    0,
+    0
+   ],
+   "arm_r": [
+    -5,
+    -10
+   ],
+   "arm_l": [
+    8,
+    12
+   ],
+   "leg_r": [
+    -2,
+    -2
+   ],
+   "leg_l": [
+    3,
+    3
+   ]
+  },
+  "idle_1": {
+   "desc": "standing idle, breathing in, shoulders slightly raised",
+   "torso": 1,
+   "head": 0,
+   "hip": [
+    0,
+    -0.004
+   ],
+   "arm_r": [
+    -6,
+    -12
+   ],
+   "arm_l": [
+    9,
+    14
+   ],
+   "leg_r": [
+    -2,
+    -2
+   ],
+   "leg_l": [
+    3,
+    3
+   ]
+  },
+  "idle_2": {
+   "desc": "standing idle, breathing out, shoulders slightly lowered",
+   "torso": -1,
+   "head": 0,
+   "hip": [
+    0,
+    0.004
+   ],
+   "arm_r": [
+    -4,
+    -8
+   ],
+   "arm_l": [
+    7,
+    10
+   ],
+   "leg_r": [
+    -2,
+    -2
+   ],
+   "leg_l": [
+    3,
+    3
+   ]
+  },
+  "walk_0": {
+   "desc": "walking cycle contact pose, right foot forward, left arm forward",
+   "torso": 4,
+   "head": 0,
+   "hip": [
+    0,
+    0.005
+   ],
+   "arm_r": [
+    -22,
+    -30
+   ],
+   "arm_l": [
+    24,
+    40
+   ],
+   "leg_r": [
+    24,
+    14
+   ],
+   "leg_l": [
+    -16,
+    -34
+   ]
+  },
+  "walk_1": {
+   "desc": "walking cycle passing pose, weight on right leg, left leg lifted passing",
+   "torso": 3,
+   "head": 0,
+   "hip": [
+    0,
+    -0.012
+   ],
+   "arm_r": [
+    -6,
+    -14
+   ],
+   "arm_l": [
+    8,
+    18
+   ],
+   "leg_r": [
+    6,
+    3
+   ],
+   "leg_l": [
+    -6,
+    -48
+   ]
+  },
+  "walk_2": {
+   "desc": "walking cycle contact pose, left foot forward, right arm forward",
+   "torso": 4,
+   "head": 0,
+   "hip": [
+    0,
+    0.005
+   ],
+   "arm_r": [
+    24,
+    40
+   ],
+   "arm_l": [
+    -22,
+    -30
+   ],
+   "leg_r": [
+    -16,
+    -34
+   ],
+   "leg_l": [
+    24,
+    14
+   ]
+  },
+  "walk_3": {
+   "desc": "walking cycle passing pose, weight on left leg, right leg lifted passing",
+   "torso": 3,
+   "head": 0,
+   "hip": [
+    0,
+    -0.012
+   ],
+   "arm_r": [
+    8,
+    18
+   ],
+   "arm_l": [
+    -6,
+    -14
+   ],
+   "leg_r": [
+    -6,
+    -48
+   ],
+   "leg_l": [
+    6,
+    3
+   ]
+  },
+  "run_0": {
+   "desc": "running contact pose, right foot forward, leaning forward",
+   "torso": 14,
+   "head": 0,
+   "hip": [
+    0.02,
+    0.01
+   ],
+   "arm_r": [
+    -40,
+    -70
+   ],
+   "arm_l": [
+    45,
+    85
+   ],
+   "leg_r": [
+    38,
+    20
+   ],
+   "leg_l": [
+    -30,
+    -70
+   ]
+  },
+  "run_1": {
+   "desc": "running flight pose, both feet off the ground, leaning forward",
+   "torso": 14,
+   "head": 0,
+   "hip": [
+    0.02,
+    -0.05
+   ],
+   "arm_r": [
+    -10,
+    -50
+   ],
+   "arm_l": [
+    15,
+    60
+   ],
+   "leg_r": [
+    8,
+    -40
+   ],
+   "leg_l": [
+    -8,
+    -75
+   ]
+  },
+  "run_2": {
+   "desc": "running contact pose, left foot forward, leaning forward",
+   "torso": 14,
+   "head": 0,
+   "hip": [
+    0.02,
+    0.01
+   ],
+   "arm_r": [
+    45,
+    85
+   ],
+   "arm_l": [
+    -40,
+    -70
+   ],
+   "leg_r": [
+    -30,
+    -70
+   ],
+   "leg_l": [
+    38,
+    20
+   ]
+  },
+  "run_3": {
+   "desc": "running flight pose, both feet off the ground, leaning forward",
+   "torso": 14,
+   "head": 0,
+   "hip": [
+    0.02,
+    -0.05
+   ],
+   "arm_r": [
+    15,
+    60
+   ],
+   "arm_l": [
+    -10,
+    -50
+   ],
+   "leg_r": [
+    -8,
+    -75
+   ],
+   "leg_l": [
+    8,
+    -40
+   ]
+  },
+  "jump_0": {
+   "desc": "jumping upward, rising, knees tucked, arms swinging up",
+   "torso": 2,
+   "head": 0,
+   "hip": [
+    0,
+    -0.1
+   ],
+   "arm_r": [
+    -30,
+    -50
+   ],
+   "arm_l": [
+    40,
+    60
+   ],
+   "leg_r": [
+    30,
+    -30
+   ],
+   "leg_l": [
+    10,
+    -55
+   ]
+  },
+  "jump_1": {
+   "desc": "peak of a jump, knees tucked high, arms out for balance",
+   "torso": 0,
+   "head": 0,
+   "hip": [
+    0,
+    -0.12
+   ],
+   "arm_r": [
+    -60,
+    -70
+   ],
+   "arm_l": [
+    60,
+    70
+   ],
+   "leg_r": [
+    50,
+    -20
+   ],
+   "leg_l": [
+    30,
+    -50
+   ]
+  },
+  "jump_2": {
+   "desc": "falling, legs extending down to land, arms raised",
+   "torso": -2,
+   "head": 0,
+   "hip": [
+    0,
+    -0.08
+   ],
+   "arm_r": [
+    -150,
+    -160
+   ],
+   "arm_l": [
+    150,
+    160
+   ],
+   "leg_r": [
+    6,
+    2
+   ],
+   "leg_l": [
+    -4,
+    0
+   ]
+  },
+  "guard": {
+   "desc": "defensive crouching guard stance, sword raised in front of the body",
+   "torso": 14,
+   "head": -6,
+   "hip": [
+    0.01,
+    0.13
+   ],
+   "arm_r": [
+    60,
+    -70
+   ],
+   "arm_l": [
+    75,
+    -60
+   ],
+   "leg_r": [
+    52,
+    -8
+   ],
+   "leg_l": [
+    -18,
+    -52
+   ]
+  },
+  "cast": {
+   "desc": "standing with both arms spread wide, shouting, casting a dark spell",
+   "torso": 0,
+   "head": -4,
+   "hip": [
+    0,
+    0
+   ],
+   "arm_r": [
+    -100,
+    -100
+   ],
+   "arm_l": [
+    100,
+    100
+   ],
+   "leg_r": [
+    -10,
+    -10
+   ],
+   "leg_l": [
+    12,
+    12
+   ]
+  },
+  "attack1_0": {
+   "desc": "sword attack wind-up, leaning back, sword arm pulled back",
+   "torso": -12,
+   "head": 3,
+   "hip": [
+    -0.01,
+    0.03
+   ],
+   "arm_r": [
+    -80,
+    -110
+   ],
+   "arm_l": [
+    35,
+    70
+   ],
+   "leg_r": [
+    28,
+    10
+   ],
+   "leg_l": [
+    -26,
+    -24
+   ]
+  },
+  "attack1_1": {
+   "desc": "sword attack strike, lunging forward, sword arm fully extended forward",
+   "torso": 20,
+   "head": -6,
+   "hip": [
+    0.04,
+    0.06
+   ],
+   "arm_r": [
+    88,
+    88
+   ],
+   "arm_l": [
+    -30,
+    -50
+   ],
+   "leg_r": [
+    52,
+    2
+   ],
+   "leg_l": [
+    -42,
+    -30
+   ]
+  },
+  "attack2_0": {
+   "desc": "backhand sword attack wind-up, torso twisted, sword arm extended forward-low",
+   "torso": 8,
+   "head": 0,
+   "hip": [
+    0.01,
+    0.03
+   ],
+   "arm_r": [
+    70,
+    70
+   ],
+   "arm_l": [
+    -40,
+    -60
+   ],
+   "leg_r": [
+    30,
+    6
+   ],
+   "leg_l": [
+    -22,
+    -22
+   ]
+  },
+  "attack2_1": {
+   "desc": "backhand sword attack strike, sword swept back across the body",
+   "torso": -14,
+   "head": 4,
+   "hip": [
+    -0.01,
+    0.04
+   ],
+   "arm_r": [
+    -100,
+    -100
+   ],
+   "arm_l": [
+    60,
+    80
+   ],
+   "leg_r": [
+    40,
+    0
+   ],
+   "leg_l": [
+    -30,
+    -26
+   ]
+  },
+  "attack3_0": {
+   "desc": "heavy sword attack wind-up, sword raised overhead with both arms",
+   "torso": -8,
+   "head": 0,
+   "hip": [
+    -0.01,
+    0.04
+   ],
+   "arm_r": [
+    -165,
+    -170
+   ],
+   "arm_l": [
+    -160,
+    -170
+   ],
+   "leg_r": [
+    30,
+    10
+   ],
+   "leg_l": [
+    -28,
+    -22
+   ]
+  },
+  "attack3_1": {
+   "desc": "heavy sword attack strike, overhead slash down, deep forward lunge",
+   "torso": 28,
+   "head": -8,
+   "hip": [
+    0.05,
+    0.1
+   ],
+   "arm_r": [
+    70,
+    75
+   ],
+   "arm_l": [
+    60,
+    70
+   ],
+   "leg_r": [
+    62,
+    0
+   ],
+   "leg_l": [
+    -48,
+    -38
+   ]
+  },
+  "cast_wave": {
+   "desc": "thrusting sword forward to release a shockwave, one arm extended",
+   "torso": 10,
+   "head": 0,
+   "hip": [
+    0.02,
+    0.05
+   ],
+   "arm_r": [
+    90,
+    90
+   ],
+   "arm_l": [
+    -20,
+    -40
+   ],
+   "leg_r": [
+    35,
+    5
+   ],
+   "leg_l": [
+    -30,
+    -28
+   ]
+  },
+  "hurt": {
+   "desc": "hit and recoiling, leaning back, arms flung out",
+   "torso": -16,
+   "head": -10,
+   "hip": [
+    -0.02,
+    0.01
+   ],
+   "arm_r": [
+    -60,
+    -30
+   ],
+   "arm_l": [
+    50,
+    20
+   ],
+   "leg_r": [
+    14,
+    6
+   ],
+   "leg_l": [
+    -10,
+    -24
+   ]
+  },
+  "down": {
+   "desc": "lying on the ground on his back, knocked down",
+   "torso": -88,
+   "head": -88,
+   "hip": [
+    -0.05,
+    0.3
+   ],
+   "arm_r": [
+    -100,
+    -100
+   ],
+   "arm_l": [
+    -85,
+    -85
+   ],
+   "leg_r": [
+    86,
+    86
+   ],
+   "leg_l": [
+    80,
+    80
+   ],
+   "lying": true
+  },
+  "victory": {
+   "desc": "victory pose, sword raised high in the right hand, left fist clenched",
+   "torso": -4,
+   "head": -4,
+   "hip": [
+    0,
+    0
+   ],
+   "arm_r": [
+    -160,
+    -170
+   ],
+   "arm_l": [
+    40,
+    70
+   ],
+   "leg_r": [
+    -12,
+    -12
+   ],
+   "leg_l": [
+    14,
+    14
+   ]
+  }
+ }
+}

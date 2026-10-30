@@ -3,10 +3,9 @@
 Action RPG façon **Tales of Symphonia** (LMBS : *Linear Motion Battle System*) en sprites 2D.
 Un vilain réincarné dans un autre monde conquiert monstres, donjons et boss de monde en monde.
 
-## Mise en route (Unity 6)
-1. Copier le dossier `Assets/` dans un projet Unity 6 (URP ou Built-in).
-2. **Project Settings > Player > Active Input Handling** = `Input System Package (New)` (ou `Both`).
-3. Menu **Jeu > 2 - Créer l'arène de test** (réimporte les sprites, crée les artes et la scène), puis **Play**.
+## Mise en route
+1. Ouvrir ce dossier avec **Unity Hub** (*Add > Add project from disk*) — éditeur **6000.5.3f1** (URP 2D, Input System déjà configurés).
+2. Menu **Jeu > 2 - Créer l'arène de test** (réimporte les sprites, crée les artes et la scène), puis **Play**.
    Sprites flous ? **Jeu > 0 - Importer les sprites**. Cliquer dans la fenêtre Game pour donner le focus clavier.
 
 ## Le combat (LMBS)
@@ -27,6 +26,20 @@ Manette : stick = ligne, X = attaque, B = technique, A = saut, LT = garde, LB = 
 
 ## Structure
 `Combat/` dégâts, équilibre, artes, jongle · `Player/` héros, TP/niveaux, cible, artes · `Allies/` IA du groupe · `Enemies/` IA · `World/` rencontres, résultats, mondes · `UI/` HUD · `Core/` entrées, caméra, sprites, FX.
+
+
+## Animations (données, pas du code)
+Chaque personnage est animé « pose à pose » par des clips JSON : `Assets/_Project/Resources/Animations/hero.json` et `creature.json`
+(idle, marche, **marche arrière** quand on recule le long de la ligne, course, saut, réception, garde, 3 attaques, un clip par type d'arte,
+touché/projeté/à terre/relevé/mort/victoire ; démarches propres à chaque monstre). Chaque frame = sprite + décalage + rotation + échelle + teinte + évènement.
+Les coups de l'attaque normale sont **calés sur le moment du coup** (évènement `hit`), les artes sur `release`.
+Modifier un clip = éditer le JSON (voir `AnimData.cs` pour les champs). Test automatique du lecteur : voir `Scripts/Animation/`.
+
+## Normes de sprites
+PPU **24** pour tout le pixel-art, caméra pixel-perfect (orthographique, échelle entière), cadres 64/32/48 px : voir `AssetPack/SPRITE_STANDARD.md`.
+
+## Remplacer les graphismes (ComfyUI)
+Le dossier **`AssetPack/`** contient tous les sprites, les workflows ComfyUI et les scripts pour les restylisés puis les réinjecter dans le jeu : voir `AssetPack/README.md` (restyle img2img **et** génération des frames du héros avec OpenPose).
 
 ## Assets (CC0)
 Héros démon (OpenGameArt), monstres/décors Tiny Dungeon et effets Particle Pack (Kenney). Voir `Assets/_Project/CREDITS.md`.

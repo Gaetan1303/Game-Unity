@@ -1,0 +1,25 @@
+{
+ "_doc": "Réglages du héros pour run_pose.py. Repris de ton workflow opencontrol.json. {pose} est remplacé par la description de chaque frame (hero_poses.json).",
+ "name": "villain_mercenary",
+ "reference": "reference/villain_mercenary_locked_reference.png",
+ "seed": 4382401,
+ "model": {
+  "ckpt": "amanatsuIllustrious_v11.safetensors",
+  "lora": "pixel-art-xl-v1.1.safetensors",
+  "lora_strength": 0.65,
+  "controlnet": "xinsir_openpose_sdxl_1.0.safetensors",
+  "cn_strength": 0.9,
+  "cn_end": 0.85,
+  "denoise": 0.55,
+  "steps": 30,
+  "cfg": 6.0,
+  "sampler": "dpmpp_2m",
+  "scheduler": "karras"
+ },
+ "output": {
+  "scale": 384,
+  "colors": 24
+ },
+ "positive": "masterpiece, best quality, clean 2D pixel art, retro 16-bit RPG game sprite, crisp square pixels, limited cohesive palette, hard pixel edges, thick dark pixel outline, one full body adult male mercenary, clearly masculine face and broad shoulders, same original red-haired mercenary character as the loaded reference image, crimson red hair tied in a short high ponytail, dark charcoal leather mercenary armor with dull silver shoulder plate, rust red scarf and cape, brown belt and pouches, dark trousers and boots, one single steel sword, preserve the reference character identity and colors, full body three-quarter view, character facing right, {pose}, matching the loaded OpenPose skeleton, flat pure bright green background, no scenery, no text",
+ "negative": "worst quality, low quality, blurry, anti-aliased, smooth shading, gradients, 3d, photorealistic, skull, skeleton, helmet, mask, woman, girl, female, feminine body, breasts, cleavage, skirt, dress, different face, different hair color, different costume, white armor, green armor, extra character, duplicate, inset, thumbnail, sprite sheet, multiple views, text, scenery, ground shadow, cropped feet, cropped sword, missing sword, extra weapon, extra limbs, malformed hands, character facing left"
+}

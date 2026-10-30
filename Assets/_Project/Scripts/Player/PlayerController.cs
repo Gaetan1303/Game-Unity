@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public float attackRadius = 1.4f;
     public float attackDelay = 0.32f;
     public float comboWindow = 0.8f;
+    [Tooltip("Délai entre l'appui et le coup réel (anticipation de l'animation)")]
+    public float hitDelay = 0.07f;
 
     CharacterController cc;
     Health hp;
@@ -192,8 +194,14 @@ public class PlayerController : MonoBehaviour
             cc.Move(transform.forward * 0.4f);
 
         Attacked?.Invoke(combo);
+        StartCoroutine(AttackHit(combo));
+    }
 
-        bool fin = combo == 3;
+    IEnumerator AttackHit(int comboIdx)
+    {
+        yield return new WaitForSeconds(hitDelay);
+        if (hp.IsDead || kn.Stunned) yield break;          // coup interrompu
+        bool fin = comboIdx == 3;
         float dmg = attackDamage * stats.AttackMultiplier * (fin ? 1.8f : 1f);
         Vector3 c = transform.position + transform.forward * attackReach * 0.6f;
         int n = CombatUtil.Hit(c, attackRadius, Team.Player, dmg, transform.forward, fin ? 9f : 2f, fin ? 35f : 9f);

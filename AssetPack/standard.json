@@ -1,0 +1,75 @@
+{
+  "_doc": "NORME DE SPRITES du projet (basée sur https://pixor.art/fr/learn/sprite-sizes/). Un seul PPU pour tout le pixel-art => un pixel d'art a partout la même taille (pas de mixels). Modifie ce fichier puis relance tools/standardize.py. PPU 24 = choix du projet (démon 48 px de large ~ 2 unités de haut).",
+  "ppu": 24,
+  "base_resolution": [
+    320,
+    180
+  ],
+  "pivot": "bas-centre (largeur de canevas paire => le pivot tombe sur un pixel entier)",
+  "categories": {
+    "hero": {
+      "folder": "Hero",
+      "canvas": [
+        64,
+        64
+      ],
+      "method": "keep",
+      "align": "bottom_keep",
+      "role": "personnage détaillé : cadre 64x64, debout = 48 px de haut (2 unités à PPU 24), pivot bas-centre. Le démon (48 px de large) y est centré."
+    },
+    "enemies": {
+      "folder": "Enemies",
+      "canvas": [
+        32,
+        32
+      ],
+      "method": "scale2x",
+      "align": "bottom",
+      "role": "ennemi standard 32x32"
+    },
+    "allies": {
+      "folder": "Allies",
+      "canvas": [
+        32,
+        32
+      ],
+      "method": "scale2x",
+      "align": "bottom",
+      "role": "personnage 32x32"
+    },
+    "env": {
+      "folder": "Env",
+      "canvas": [
+        32,
+        32
+      ],
+      "method": "scale2x",
+      "align": "fill",
+      "role": "tuile / décor 32x32 (le sol et le mur se répètent en tuiles de 32 px)"
+    },
+    "fx": {
+      "folder": "Fx",
+      "canvas": [
+        64,
+        64
+      ],
+      "method": "pixelate",
+      "align": "fill",
+      "role": "effet 64x64, alpha en 4 niveaux (PPU 64 : 1 unité à l'échelle 1)",
+      "ppu": 64,
+      "alpha_levels": 4
+    }
+  },
+  "variants": {
+    "enemies/brute_boss": {
+      "from": "enemies/brute",
+      "method": "scale3x",
+      "canvas": [
+        48,
+        48
+      ],
+      "align": "bottom",
+      "role": "boss 48x48 (Scale3x du cyclope)"
+    }
+  }
+}

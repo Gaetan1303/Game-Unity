@@ -1,137 +1,150 @@
 using UnityEngine;
 
-/// <summary>Anime le sprite du démon : idle / marche / saut / garde / pose d'attaque / sonné + effets de coups.</summary>
+/// <summary>
+/// Animation du démon (clips dans Resources/Animations/hero.json) :
+/// idle / marche / marche arrière (recul le long de la ligne) / course / saut / chute / réception / garde,
+/// 3 attaques distinctes, un clip par type d'arte, touché / projeté / à terre / relevé / mort / victoire.
+/// Les attaques sont calées sur le moment réel des dégâts (évènement "hit" / "release").
+/// </summary>
 public class HeroVisual : SpriteActor
 {
-    Sprite[] idle, walk, jump;
-    Sprite guard, cast;
     PlayerController pc;
     ArteCaster caster;
     PlayerStats stats;
-    float attackT, spellT, spellDuration, spellAge, nextSpellFx, lunge, nextAura;
-    float walkPhase;
+    int comboFx = 1;
     ArteData spellArte;
-    static readonly int[] IdlePattern = { 0, 1, 2, 1 };
+    float spellStart, spellUntil, nextSpellFx;
+    float nextAura, nextGhost, airVy;
+    bool wasGrounded = true;
 
     protected override void Awake()
     {
         base.Awake();
-        SetBaseFacing(false); // les frames du héros regardent vers la gauche
-        idle = LoadSet("idle_", 3); walk = LoadSet("walk_", 4); jump = LoadSet("jump_", 3);
-        guard = Load("Sprites/Hero/guard"); cast = Load("Sprites/Hero/cast");
+        UseAnims("hero");
         pc = GetComponent<PlayerController>();
         caster = GetComponent<ArteCaster>();
         stats = GetComponent<PlayerStats>();
         pc.Attacked += OnAttack;
-        caster.Casted += OnArte;
+        caster.Casted += OnCast;
     }
 
-    static Sprite[] LoadSet(string prefix, int n)
+    static string ClipFor(ArteData a)
     {
-        var a = new Sprite[n];
-        for (int i = 0; i < n; i++) a[i] = Load($"Sprites/Hero/{prefix}{i}");
-        return a;
+        if (!string.IsNullOrEmpty(a.animClip)) return a.animClip;
+        switch (a.kind)
+        {
+            case ArteKind.GroundWave: return "cast_wave";
+            case ArteKind.Projectile: return "cast_throw";
+            case ArteKind.Launcher: return "cast_launch";
+            case ArteKind.Melee: return "cast_spin";
+            case ArteKind.AreaAtTarget: return "cast_magic";
+            case ArteKind.Strike: return "cast_strike";
+            case ArteKind.Heal: return "cast_heal";
+        }
+        return "cast_wave";
     }
 
     void OnAttack(int combo)
     {
-        attackT = 0.28f;
-        spellT = 0f;
-        lunge = combo == 3 ? 0.8f : 0.5f;
-        string[] names = { "slash_03", "slash_04", "slash_02" };
-        float size = combo == 3 ? 3.6f : 2.4f;
-        Vector3 p = transform.position + transform.forward * 1.1f + Vector3.up * 0.2f;
-        Fx.Spawn(names[combo - 1], p, size * 0.8f, size, combo == 3 ? new Color(1f, 0.5f, 0.5f) : Color.white,
-                 0.16f, flipX: CombatUtil.ScreenFacingDot(transform) < -0.01f, order: 60);
+        comboFx = combo;
+        PlayAligned("attack" + combo, "hit", pc.hitDelay, pc.attackDelay + 0.1f);
     }
 
-    void OnArte(ArteData arte)
+    void OnCast(ArteData a)
     {
-        float duration = Mathf.Max(0.18f, ArteExecutor.Duration(arte) * 0.8f);
-        lunge = 0.15f;
+        bool melee = a.kind == ArteKind.Melee;
+        spellArte = melee ? null : a;
+        spellStart = Time.time; spellUntil = Time.time + ArteExecutor.Duration(a) * 0.8f; nextSpellFx = 0f;
+        PlayAligned(ClipFor(a), "release", Mathf.Max(0.06f, a.windup), ArteExecutor.Duration(a));
+    }
 
-        if (arte.kind == ArteKind.Melee)
+    protected override void OnAnimEvent(string ev)
+    {
+        switch (ev)
         {
-            attackT = duration;
-            spellT = 0f;
-            spellArte = null;
-            return;
+            case "step": Dust(0.6f); break;
+            case "land": Dust(1.3f); break;
+            case "hit": SpawnSlash(); Ghost(new Color(1f, 0.45f, 0.45f, 0.5f), 0.22f); break;
         }
+    }
 
-        attackT = 0f;
-        spellT = spellDuration = duration;
-        spellAge = 0f;
-        nextSpellFx = 0f;
-        spellArte = arte;
+    /// <summary>Arc de coup orienté VERS la direction regardée (rotation, jamais de flip).</summary>
+    void SpawnSlash()
+    {
+        float side = FacingRight ? 1f : -1f;
+        Vector3 p = transform.position + Vector3.right * side * 1.1f + Vector3.up * 0.1f;
+        switch (comboFx)
+        {
+            case 1: Fx.SpawnDirected("slash_03", p, new Vector2(side, 0.15f), 2.0f, 2.6f, Color.white, 0.16f); break;
+            case 2: Fx.SpawnDirected("slash_01", p + Vector3.up * 0.2f, new Vector2(side, -0.7f), 2.0f, 2.6f, Color.white, 0.16f); break;
+            default:
+                Fx.SpawnDirected("slash_03", p, new Vector2(side, -0.25f), 3.0f, 3.8f, new Color(1f, 0.55f, 0.5f), 0.2f);
+                Fx.Spawn("scorch_03", p + Vector3.right * side * 0.3f, 1.0f, 2.2f, new Color(1f, 0.6f, 0.4f), 0.2f, order: 58);
+                break;
+        }
     }
 
     protected override void Animate()
     {
-        float dt = Time.deltaTime;
-        attackT = Mathf.Max(0f, attackT - dt);
-        spellT = Mathf.Max(0f, spellT - dt);
-        if (spellT > 0f) spellAge += dt;
         Vector3 v = cc.velocity;
-        float hs = new Vector2(v.x, v.z).magnitude;
+        Vector3 hv = new Vector3(v.x, 0f, v.z);
+        float hs = hv.magnitude;
+        bool grounded = cc.isGrounded;
 
-        // aura d'Overlimit
-        if (stats != null && stats.InOverlimit && Time.time >= nextAura)
+        // ---- effets continus (Overlimit : teinte pulsante, aura, traînée) ----
+        if (stats != null && stats.InOverlimit)
         {
-            nextAura = Time.time + 0.12f;
-            Fx.Spawn("circle_05", transform.position + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.8f, 0.6f), 0f),
-                     0.5f, 1.4f, new Color(1f, 0.25f, 0.2f, 0.7f), 0.4f, vel: Vector3.up * 1.5f, order: -1);
-        }
-
-        if (kn != null && kn.Stunned) sr.sprite = jump[2];
-        else if (spellT > 0f)
-        {
-            float progress = 1f - Mathf.Clamp01(spellT / spellDuration);
-            float pulse = Mathf.Sin(progress * Mathf.PI);
-            bool charging = spellArte != null && spellAge < Mathf.Max(0.16f, spellArte.windup);
-            sr.sprite = charging ? cast : idle[1];
-            visual.localScale = new Vector3(1f + pulse * 0.06f, 1f + pulse * 0.1f, 1f);
-            extraOffset = Vector3.up * (0.04f + pulse * 0.12f)
-                        + CombatUtil.ScreenRight * (FacingRight ? 1f : -1f) * lunge;
-            lunge = Mathf.MoveTowards(lunge, 0f, dt * 2.5f);
-            if (spellArte != null && spellAge >= nextSpellFx)
+            baseTint = Color.Lerp(Color.white, new Color(1f, 0.6f, 0.55f), 0.5f + 0.5f * Mathf.Sin(Time.time * 10f));
+            if (Time.time >= nextAura)
             {
-                nextSpellFx = spellAge + 0.12f;
-                Vector3 hand = transform.position + transform.forward * 0.32f + Vector3.up * 0.72f;
-                float strength = charging ? 0.55f : 0.9f;
-                Fx.Spawn("star_04", hand, 0.18f, strength, spellArte.tint, 0.22f,
-                         spin: 180f, order: 62);
-                Fx.Spawn("magic_03", hand, 0.12f, strength * 0.65f, spellArte.tint, 0.28f,
-                         vel: Vector3.up * 0.35f, order: 61);
+                nextAura = Time.time + 0.12f;
+                Fx.Spawn("circle_05", transform.position + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.8f, 0.6f), 0f),
+                         0.5f, 1.4f, new Color(1f, 0.25f, 0.2f, 0.7f), 0.4f, vel: Vector3.up * 1.5f, order: -1);
             }
+            if (Time.time >= nextGhost) { nextGhost = Time.time + 0.09f; Ghost(new Color(1f, 0.3f, 0.3f, 0.35f), 0.3f); }
         }
-        else if (attackT > 0f)
+
+        // ---- réception après une chute ----
+        if (!wasGrounded && grounded && airVy < -5f && !Forced) PlayAction("land", 0.18f);
+        wasGrounded = grounded;
+        if (!grounded) airVy = v.y;
+
+        // étincelles aux mains pendant l'incantation (plus intenses une fois le sort libéré)
+        if (spellArte != null && Time.time < spellUntil && !Forced && Time.time >= nextSpellFx)
         {
-            sr.sprite = walk[Mathf.FloorToInt(Time.time * 16f) % 2 == 0 ? 1 : 3];
-            lunge = Mathf.MoveTowards(lunge, 0f, dt * 2.5f);
-            extraOffset = CombatUtil.ScreenRight * (FacingRight ? 1f : -1f) * lunge;
+            nextSpellFx = Time.time + 0.12f;
+            bool charging = Time.time - spellStart < Mathf.Max(0.16f, spellArte.windup);
+            float side = FacingRight ? 1f : -1f;
+            Vector3 hand = transform.position + CombatUtil.ScreenRight * side * 0.35f + Vector3.up * 0.5f;
+            float strength = charging ? 0.55f : 0.9f;
+            Fx.Spawn("star_04", hand, 0.18f, strength, spellArte.tint, 0.22f, spin: 180f, order: 62);
+            Fx.Spawn("magic_03", hand, 0.12f, strength * 0.65f, spellArte.tint, 0.28f, vel: Vector3.up * 0.35f, order: 61);
         }
-        else if (pc.Guarding) sr.sprite = guard;
-        else if (!cc.isGrounded)
+
+        if (Forced || InAction) return;
+
+        if (BattleManager.Instance != null && BattleManager.Instance.State == BattleState.Results) { Play("victory"); return; }
+        if (pc.Guarding) { Play("guard"); return; }
+
+        if (!grounded && Mathf.Abs(v.y) > 1f)
         {
-            sr.sprite = v.y > 0.5f ? jump[0] : (v.y < -0.5f ? jump[2] : jump[1]);
-            walkPhase = 0f;
+            Play(v.y > 3f ? "jump_up" : (v.y < -3f ? "fall" : "jump_peak"));
+            return;
         }
-        else if (hs > 0.4f)
+
+        if (hs > 0.4f)
         {
-            float cadence = pc.FreeRun ? 10f : 8f;
-            walkPhase += dt * cadence * Mathf.Clamp(hs / Mathf.Max(pc.moveSpeed, 0.1f), 0.65f, 1.35f);
-            sr.sprite = walk[Mathf.FloorToInt(walkPhase) % walk.Length];
-            float step = Mathf.Abs(Mathf.Sin(walkPhase * Mathf.PI));
-            visual.localScale = new Vector3(1f + step * 0.02f, 1f - step * 0.03f, 1f);
-            extraOffset = Vector3.up * (step * 0.025f);
+            // on avance dans le sens regardé (marche/course) ou on RECULE en gardant la cible en face (marche arrière)
+            float along = Vector3.Dot(hv / hs, transform.forward);
+            if (along < -0.3f) Play("walk_back", Mathf.Clamp(hs / 5f, 0.7f, 1.5f));
+            else if (hs > 7f)
+            {
+                Play("run");
+                if (Time.time >= nextGhost) { nextGhost = Time.time + 0.07f; Ghost(new Color(0.9f, 0.3f, 0.3f, 0.22f), 0.2f); }
+            }
+            else Play("walk", Mathf.Clamp(hs / 6f, 0.8f, 1.4f));
+            return;
         }
-        else
-        {
-            walkPhase = 0f;
-            sr.sprite = idle[IdlePattern[(int)(Time.time * 2.6f) % IdlePattern.Length]];
-            float breath = Mathf.Sin(Time.time * 2.6f);
-            visual.localScale = new Vector3(1f, 1f + breath * 0.012f, 1f);
-            extraOffset = Vector3.up * (0.015f + breath * 0.012f);
-        }
+        Play("idle");
     }
 }

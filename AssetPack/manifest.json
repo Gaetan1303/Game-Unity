@@ -1,0 +1,970 @@
+{
+  "canvas": 768,
+  "bg": [
+    127,
+    127,
+    127
+  ],
+  "assets": [
+    {
+      "id": "hero/idle_0",
+      "category": "hero",
+      "name": "idle_0",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain standing idle, front view, muscular, arms down, golden horns and claws"
+    },
+    {
+      "id": "hero/idle_1",
+      "category": "hero",
+      "name": "idle_1",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain standing idle, front view, slight breathing pose, golden horns and claws"
+    },
+    {
+      "id": "hero/idle_2",
+      "category": "hero",
+      "name": "idle_2",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain standing idle, front view, slight breathing pose, golden horns and claws"
+    },
+    {
+      "id": "hero/walk_0",
+      "category": "hero",
+      "name": "walk_0",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 1, golden horns"
+    },
+    {
+      "id": "hero/walk_1",
+      "category": "hero",
+      "name": "walk_1",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 2, golden horns"
+    },
+    {
+      "id": "hero/walk_2",
+      "category": "hero",
+      "name": "walk_2",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 3, golden horns"
+    },
+    {
+      "id": "hero/walk_3",
+      "category": "hero",
+      "name": "walk_3",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 4, golden horns"
+    },
+    {
+      "id": "hero/jump_0",
+      "category": "hero",
+      "name": "jump_0",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain jumping upward, three-quarter view facing left, golden horns"
+    },
+    {
+      "id": "hero/jump_1",
+      "category": "hero",
+      "name": "jump_1",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain at the top of a jump, three-quarter view facing left, golden horns"
+    },
+    {
+      "id": "hero/jump_2",
+      "category": "hero",
+      "name": "jump_2",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain falling, three-quarter view facing left, golden horns"
+    },
+    {
+      "id": "hero/guard",
+      "category": "hero",
+      "name": "guard",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain in a defensive crouching guard stance, front view, golden horns"
+    },
+    {
+      "id": "hero/cast",
+      "category": "hero",
+      "name": "cast",
+      "unity_folder": "Hero",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "red horned demon villain with arms spread wide casting a dark spell, shouting, front view, golden horns"
+    },
+    {
+      "id": "enemies/slime",
+      "category": "enemies",
+      "name": "slime",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "small green slime ghost creature, cute but menacing"
+    },
+    {
+      "id": "enemies/brute",
+      "category": "enemies",
+      "name": "brute",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "bald one-eyed cyclops ogre brute, muscular, tan skin"
+    },
+    {
+      "id": "enemies/imp",
+      "category": "enemies",
+      "name": "imp",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "small red demon imp with white eyes and a big beard"
+    },
+    {
+      "id": "enemies/cultist",
+      "category": "enemies",
+      "name": "cultist",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "hooded cultist in a brown robe with a white beard and glowing eyes"
+    },
+    {
+      "id": "enemies/bat",
+      "category": "enemies",
+      "name": "bat",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "brown cave bat with spread wings"
+    },
+    {
+      "id": "enemies/ghost",
+      "category": "enemies",
+      "name": "ghost",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "pale grey ghost with a screaming face"
+    },
+    {
+      "id": "enemies/spider",
+      "category": "enemies",
+      "name": "spider",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "brown giant spider with eight legs"
+    },
+    {
+      "id": "enemies/scorpion",
+      "category": "enemies",
+      "name": "scorpion",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "orange scorpion with raised tail"
+    },
+    {
+      "id": "enemies/rat",
+      "category": "enemies",
+      "name": "rat",
+      "unity_folder": "Enemies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "grey dungeon rat monster"
+    },
+    {
+      "id": "enemies/brute_boss",
+      "category": "enemies",
+      "name": "brute_boss",
+      "unity_folder": "Enemies",
+      "src_size": [
+        48,
+        48
+      ],
+      "canvas": 768,
+      "scale": 11,
+      "offset": [
+        120,
+        120
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "giant bald one-eyed cyclops ogre boss, muscular, tan skin, huge, menacing"
+    },
+    {
+      "id": "allies/mage",
+      "category": "allies",
+      "name": "mage",
+      "unity_folder": "Allies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "old wizard with a purple pointed hat and a long white beard"
+    },
+    {
+      "id": "allies/knight",
+      "category": "allies",
+      "name": "knight",
+      "unity_folder": "Allies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "knight in steel armor with a closed visor helmet"
+    },
+    {
+      "id": "allies/healer",
+      "category": "allies",
+      "name": "healer",
+      "unity_folder": "Allies",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": false,
+      "subject": "young woman healer with long brown hair and a purple dress"
+    },
+    {
+      "id": "env/floor",
+      "category": "env",
+      "name": "floor",
+      "unity_folder": "Env",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": true,
+      "subject": "dungeon floor tile, dark reddish brown packed dirt, top-down, seamless tileable texture"
+    },
+    {
+      "id": "env/wall",
+      "category": "env",
+      "name": "wall",
+      "unity_folder": "Env",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": true,
+      "subject": "grey stone brick wall tile, seamless tileable texture"
+    },
+    {
+      "id": "env/banner",
+      "category": "env",
+      "name": "banner",
+      "unity_folder": "Env",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": true,
+      "subject": "red heraldic banner with gold trim hanging on a wall"
+    },
+    {
+      "id": "env/gargoyle",
+      "category": "env",
+      "name": "gargoyle",
+      "unity_folder": "Env",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": true,
+      "subject": "stone gargoyle relief carved in a wall niche"
+    },
+    {
+      "id": "env/barrel",
+      "category": "env",
+      "name": "barrel",
+      "unity_folder": "Env",
+      "src_size": [
+        32,
+        32
+      ],
+      "canvas": 768,
+      "scale": 17,
+      "offset": [
+        112,
+        112
+      ],
+      "pixel": true,
+      "alpha": "mask",
+      "tileable": true,
+      "subject": "wooden barrel with iron bands"
+    },
+    {
+      "id": "fx/slash_01",
+      "category": "fx",
+      "name": "slash_01",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing crescent slash arc, soft edges, black background"
+    },
+    {
+      "id": "fx/slash_02",
+      "category": "fx",
+      "name": "slash_02",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing crescent slash arc, soft edges, black background"
+    },
+    {
+      "id": "fx/slash_03",
+      "category": "fx",
+      "name": "slash_03",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing vertical curved slash arc, soft edges, black background"
+    },
+    {
+      "id": "fx/slash_04",
+      "category": "fx",
+      "name": "slash_04",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing horizontal curved slash arc, soft edges, black background"
+    },
+    {
+      "id": "fx/twirl_01",
+      "category": "fx",
+      "name": "twirl_01",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing spiral wind swirl, soft edges, black background"
+    },
+    {
+      "id": "fx/twirl_02",
+      "category": "fx",
+      "name": "twirl_02",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing spiral wind swirl, soft edges, black background"
+    },
+    {
+      "id": "fx/magic_01",
+      "category": "fx",
+      "name": "magic_01",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing pentagram magic circle with rune nodes, black background"
+    },
+    {
+      "id": "fx/magic_03",
+      "category": "fx",
+      "name": "magic_03",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing four-pointed compass star magic sigil, black background"
+    },
+    {
+      "id": "fx/star_01",
+      "category": "fx",
+      "name": "star_01",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing small four-pointed sparkle, black background"
+    },
+    {
+      "id": "fx/star_04",
+      "category": "fx",
+      "name": "star_04",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing thin vertical cross sparkle, black background"
+    },
+    {
+      "id": "fx/star_06",
+      "category": "fx",
+      "name": "star_06",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing bright star flare, black background"
+    },
+    {
+      "id": "fx/star_08",
+      "category": "fx",
+      "name": "star_08",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing eight-pointed star burst, black background"
+    },
+    {
+      "id": "fx/star_09",
+      "category": "fx",
+      "name": "star_09",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing large star burst with halo, black background"
+    },
+    {
+      "id": "fx/circle_02",
+      "category": "fx",
+      "name": "circle_02",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing thin ring shockwave, black background"
+    },
+    {
+      "id": "fx/circle_05",
+      "category": "fx",
+      "name": "circle_05",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white soft glowing round orb, black background"
+    },
+    {
+      "id": "fx/light_02",
+      "category": "fx",
+      "name": "light_02",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white soft glowing ring of light, black background"
+    },
+    {
+      "id": "fx/scorch_03",
+      "category": "fx",
+      "name": "scorch_03",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing explosion burst with sparks, black background"
+    },
+    {
+      "id": "fx/spark_05",
+      "category": "fx",
+      "name": "spark_05",
+      "unity_folder": "Fx",
+      "src_size": [
+        64,
+        64
+      ],
+      "canvas": 768,
+      "scale": 8,
+      "offset": [
+        128,
+        128
+      ],
+      "pixel": true,
+      "alpha": "luma",
+      "tileable": false,
+      "subject": "white glowing vertical lightning bolt, black background"
+    }
+  ]
+}

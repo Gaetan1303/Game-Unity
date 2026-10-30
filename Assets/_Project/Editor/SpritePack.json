@@ -1,0 +1,35 @@
+{
+  "_doc": "Réglages d'import des sprites par dossier. ppu = pixels par unité Unity ; base_ppu = valeur d'origine (ne pas changer). Modifié automatiquement par AssetPack/tools/import_back.py en mode hd.",
+  "folders": [
+    {
+      "folder": "Hero",
+      "base_ppu": 24,
+      "ppu": 24,
+      "filter": "Point"
+    },
+    {
+      "folder": "Enemies",
+      "base_ppu": 24,
+      "ppu": 24,
+      "filter": "Point"
+    },
+    {
+      "folder": "Allies",
+      "base_ppu": 24,
+      "ppu": 24,
+      "filter": "Point"
+    },
+    {
+      "folder": "Env",
+      "base_ppu": 24,
+      "ppu": 24,
+      "filter": "Point"
+    },
+    {
+      "folder": "Fx",
+      "base_ppu": 64,
+      "ppu": 64,
+      "filter": "Point"
+    }
+  ]
+}

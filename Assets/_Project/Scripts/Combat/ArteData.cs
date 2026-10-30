@@ -34,5 +34,7 @@ public class ArteData : ScriptableObject
     [Header("Visuel")]
     [Tooltip("Nom d'un sprite de Resources/Sprites/Fx (vide = valeur par défaut selon le type)")]
     public string fxSprite;
+    [Tooltip("Clip de hero.json (vide = défaut selon le type : cast_wave, cast_launch, cast_spin, cast_magic...)")]
+    public string animClip;
     public Color tint = Color.white;
 }

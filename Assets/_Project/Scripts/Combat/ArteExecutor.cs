@@ -41,8 +41,8 @@ public static class ArteExecutor
             {
                 Vector3 pos = self.position + dir * 1f + Vector3.down * 0.1f;
                 float size = a.radius * 3f;
-                var fx = Fx.Spawn(FxName(a), pos, size, size, a.tint, float.PositiveInfinity,
-                                  flipX: CombatUtil.ScreenFacingDot(self) < -0.01f, order: 60);
+                float side = CombatUtil.ScreenFacingDot(self) < -0.01f ? -1f : 1f;
+                var fx = Fx.SpawnDirected(FxName(a), pos, new Vector2(side, 0f), size, size, a.tint, float.PositiveInfinity, 60);
                 var go = fx != null ? fx.gameObject : new GameObject("Wave");
                 go.transform.position = pos;
                 go.AddComponent<ArteProjectile>().Init(team, dir, a, dmgMul, true, null);
@@ -60,9 +60,9 @@ public static class ArteExecutor
             }
             case ArteKind.Launcher:
             {
-                Fx.Spawn(FxName(a), self.position + dir * 1.3f + Vector3.up * 0.6f, 2.0f, 3.8f, a.tint, 0.22f,
-                         flipX: CombatUtil.ScreenFacingDot(self) < -0.01f,
-                         angle: CombatUtil.ScreenFacingDot(self) < -0.01f ? -60f : 60f, order: 60);
+                float uside = CombatUtil.ScreenFacingDot(self) < -0.01f ? -1f : 1f;
+                Fx.SpawnDirected(FxName(a), self.position + dir * 1.3f + Vector3.up * 0.6f,
+                                 new Vector2(uside * 0.5f, 1f), 2.0f, 3.8f, a.tint, 0.22f, 60);
                 int n = CombatUtil.Hit(self.position + dir * 1.2f, a.radius, team, dmg, dir, a.knockback, a.poise, a.launch, a.knockdown);
                 onHits?.Invoke(n);
                 break;

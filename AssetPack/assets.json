@@ -1,0 +1,88 @@
+{
+  "_doc": "Décrit chaque sprite : sujet (pour le prompt), type d'alpha, pixel-art ou non. Modifie les 'subject' librement.",
+  "hero": {
+    "unity_folder": "Hero",
+    "pixel": true,
+    "alpha": "mask",
+    "assets": {
+      "idle_0": "red horned demon villain standing idle, front view, muscular, arms down, golden horns and claws",
+      "idle_1": "red horned demon villain standing idle, front view, slight breathing pose, golden horns and claws",
+      "idle_2": "red horned demon villain standing idle, front view, slight breathing pose, golden horns and claws",
+      "walk_0": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 1, golden horns",
+      "walk_1": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 2, golden horns",
+      "walk_2": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 3, golden horns",
+      "walk_3": "red horned demon villain walking, three-quarter view facing left, walk cycle frame 4, golden horns",
+      "jump_0": "red horned demon villain jumping upward, three-quarter view facing left, golden horns",
+      "jump_1": "red horned demon villain at the top of a jump, three-quarter view facing left, golden horns",
+      "jump_2": "red horned demon villain falling, three-quarter view facing left, golden horns",
+      "guard": "red horned demon villain in a defensive crouching guard stance, front view, golden horns",
+      "cast": "red horned demon villain with arms spread wide casting a dark spell, shouting, front view, golden horns"
+    }
+  },
+  "enemies": {
+    "unity_folder": "Enemies",
+    "pixel": true,
+    "alpha": "mask",
+    "assets": {
+      "slime": "small green slime ghost creature, cute but menacing",
+      "brute": "bald one-eyed cyclops ogre brute, muscular, tan skin",
+      "imp": "small red demon imp with white eyes and a big beard",
+      "cultist": "hooded cultist in a brown robe with a white beard and glowing eyes",
+      "bat": "brown cave bat with spread wings",
+      "ghost": "pale grey ghost with a screaming face",
+      "spider": "brown giant spider with eight legs",
+      "scorpion": "orange scorpion with raised tail",
+      "rat": "grey dungeon rat monster",
+      "brute_boss": "giant bald one-eyed cyclops ogre boss, muscular, tan skin, huge, menacing"
+    }
+  },
+  "allies": {
+    "unity_folder": "Allies",
+    "pixel": true,
+    "alpha": "mask",
+    "assets": {
+      "mage": "old wizard with a purple pointed hat and a long white beard",
+      "knight": "knight in steel armor with a closed visor helmet",
+      "healer": "young woman healer with long brown hair and a purple dress"
+    }
+  },
+  "env": {
+    "unity_folder": "Env",
+    "pixel": true,
+    "alpha": "mask",
+    "tileable": true,
+    "assets": {
+      "floor": "dungeon floor tile, dark reddish brown packed dirt, top-down, seamless tileable texture",
+      "wall": "grey stone brick wall tile, seamless tileable texture",
+      "banner": "red heraldic banner with gold trim hanging on a wall",
+      "gargoyle": "stone gargoyle relief carved in a wall niche",
+      "barrel": "wooden barrel with iron bands"
+    }
+  },
+  "fx": {
+    "unity_folder": "Fx",
+    "pixel": true,
+    "alpha": "luma",
+    "assets": {
+      "slash_01": "white glowing crescent slash arc, soft edges, black background",
+      "slash_02": "white glowing crescent slash arc, soft edges, black background",
+      "slash_03": "white glowing vertical curved slash arc, soft edges, black background",
+      "slash_04": "white glowing horizontal curved slash arc, soft edges, black background",
+      "twirl_01": "white glowing spiral wind swirl, soft edges, black background",
+      "twirl_02": "white glowing spiral wind swirl, soft edges, black background",
+      "magic_01": "white glowing pentagram magic circle with rune nodes, black background",
+      "magic_03": "white glowing four-pointed compass star magic sigil, black background",
+      "star_01": "white glowing small four-pointed sparkle, black background",
+      "star_04": "white glowing thin vertical cross sparkle, black background",
+      "star_06": "white glowing bright star flare, black background",
+      "star_08": "white glowing eight-pointed star burst, black background",
+      "star_09": "white glowing large star burst with halo, black background",
+      "circle_02": "white glowing thin ring shockwave, black background",
+      "circle_05": "white soft glowing round orb, black background",
+      "light_02": "white soft glowing ring of light, black background",
+      "scorch_03": "white glowing explosion burst with sparks, black background",
+      "spark_05": "white glowing vertical lightning bolt, black background"
+    },
+    "_note": "effets 64x64 pixelisés, alpha en 4 niveaux (voir standard.json)"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "_doc": "Presets de style. Ajoute le tien : positive = préfixe du prompt, negative, denoise = force de transformation (0.3 fidèle -> 0.7 très stylisé).",
+  "pixel_dark": {
+    "positive": "pixel art, 16-bit JRPG sprite, dark fantasy, clean 1px outlines, limited color palette, flat cel shading, game asset, single character, centered, plain flat gray background",
+    "negative": "blurry, smooth gradients, photo, realistic, 3d render, text, watermark, signature, extra limbs, cropped, background scenery, multiple characters, noise",
+    "denoise": 0.5, "cfg": 6.5, "steps": 28
+  },
+  "anime_cel": {
+    "positive": "anime game sprite, cel shading, bold clean outlines, vibrant colors, dramatic lighting, game asset, single character, centered, plain flat gray background",
+    "negative": "blurry, photo, realistic, 3d render, text, watermark, signature, extra limbs, cropped, background scenery, multiple characters",
+    "denoise": 0.55, "cfg": 6.5, "steps": 28
+  },
+  "painted_hd": {
+    "positive": "2D hand-painted game sprite, detailed brush strokes, soft rim lighting, rich colors, game asset, single character, centered, plain flat gray background",
+    "negative": "blurry, photo, 3d render, text, watermark, signature, extra limbs, cropped, background scenery, multiple characters",
+    "denoise": 0.6, "cfg": 7.0, "steps": 30
+  }
+}

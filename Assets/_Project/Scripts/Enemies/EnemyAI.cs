@@ -20,6 +20,8 @@ public class EnemyAI : MonoBehaviour
     /// <summary>Dormant tant que la rencontre n'a pas commencé.</summary>
     public bool Active { get; set; }
     public bool Attacking => attacking;
+    /// <summary>(délai avant le coup, durée totale, onde de choc ?) pour caler l'animation.</summary>
+    public event System.Action<float, float, bool> AttackStarted;
 
     CharacterController cc;
     Health hp;
@@ -96,6 +98,8 @@ public class EnemyAI : MonoBehaviour
         attacking = true;
         atkCount++;
         bool slam = bossSlam && atkCount % 3 == 0;
+        float hitT = slam ? 0.9f : windup;
+        AttackStarted?.Invoke(hitT, hitT + 0.35f, slam);
         if (superArmor) hp.armorUntil = Time.time + windup + 0.8f;
 
         // télégraphe : un "!" au-dessus de la tête

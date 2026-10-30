@@ -130,18 +130,27 @@ public static class GameSetupMenu
         go.AddComponent<BoxCollider>().size = size;
     }
 
-    static EnemyAI Foe(string name, string sprite, float x, float z, float hp, float speed, float dmg, float scale,
-                       float poise, bool boss, WorldData world)
+    /// <summary>Hauteur monde d'un sprite d'ennemi (pixels / PPU) -> sert à dimensionner la collision.</summary>
+    static float SpriteHeight(string folder, string name)
     {
-        var e = Actor(name, new Vector3(x, 0.05f, z), 1.6f * scale, 0.45f * scale);
+        var sp = AssetDatabase.LoadAssetAtPath<Sprite>($"{SpriteImporter.Root}/{folder}/{name}.png");
+        return sp != null ? sp.rect.height / sp.pixelsPerUnit : 1.25f;
+    }
+
+    static EnemyAI Foe(string name, string sprite, float x, float z, float hp, float speed, float dmg,
+                       float poise, bool boss, WorldData world, string walk, string idle = "idle", float hover = 0f)
+    {
+        float h = SpriteHeight("Enemies", sprite);
+        var e = Actor(name, new Vector3(x, 0.05f, z), h, Mathf.Min(0.55f, h * 0.32f));
         e.AddComponent<Health>().team = Team.Enemy;
         e.AddComponent<Knockable>();
         var ai = e.AddComponent<EnemyAI>();
         ai.maxHp = hp; ai.moveSpeed = speed; ai.attackDamage = dmg; ai.maxPoise = poise;
-        ai.attackRange = 1.8f * scale; ai.aggroRange = 20f;
+        ai.attackRange = Mathf.Max(1.5f, h * 1.2f); ai.aggroRange = 20f;
         if (boss) { ai.superArmor = true; ai.bossSlam = true; ai.conquersWorldOnDeath = world; ai.windup = 0.6f; }
         var vis = e.AddComponent<EnemySprite>();
-        vis.spriteName = sprite; vis.scale = scale;
+        vis.spriteName = sprite; vis.scale = 1f;          // échelle ENTIÈRE (norme) : un boss = un sprite plus grand
+        vis.walkClip = walk; vis.idleClip = idle; vis.hover = hover;
         return ai;
     }
 
@@ -155,7 +164,7 @@ public static class GameSetupMenu
 
     static void Ally(string name, string sprite, AllyRole role, Vector3 pos, ArteData arte, float hp)
     {
-        var a = Actor(name, pos, 1.6f, 0.4f);
+        var a = Actor(name, pos, 1.25f, 0.4f);
         a.AddComponent<Health>().team = Team.Player;
         a.AddComponent<Knockable>();
         var ai = a.AddComponent<AllyAI>();
@@ -182,11 +191,11 @@ public static class GameSetupMenu
 
         // ----- décor -----
         Tiled("Sol", "floor", new Vector3(0, 0, 0), new Vector3(90, 0, 0), new Vector2(64, 28), Vector3.one, -100);
-        Tiled("Mur", "wall", new Vector3(0, 8, 14.5f), Vector3.zero, new Vector2(32, 8), new Vector3(2, 2, 1), -200);
+        Tiled("Mur", "wall", new Vector3(0, 8, 14.5f), Vector3.zero, new Vector2(64, 16), Vector3.one, -200);   // tuiles à l'échelle 1
         var banner = AssetDatabase.LoadAssetAtPath<Sprite>(Env + "banner.png");
         for (int x = -24; x <= 24; x += 8)
         {
-            var b = new GameObject("Banniere"); b.transform.position = new Vector3(x, 5, 14.3f); b.transform.localScale = Vector3.one * 3f;
+            var b = new GameObject("Banniere"); b.transform.position = new Vector3(x, 5, 14.3f); 
             var sr = b.AddComponent<SpriteRenderer>(); sr.sprite = banner; sr.sortingOrder = -190;
         }
         Box("SolCollider", new Vector3(0, -0.5f, 0), new Vector3(80, 1, 30));
@@ -213,19 +222,19 @@ public static class GameSetupMenu
         Ally("Mage", "mage", AllyRole.Mage, new Vector3(-11, 0.05f, 2), Load("Photon"), 90);
         Ally("Soigneuse", "healer", AllyRole.Healer, new Vector3(-12, 0.05f, 0), Load("SoinTenebreux"), 100);
 
-        // ----- rencontres -----
+        // ----- rencontres : nom, sprite, x, z, pv, vitesse, dégâts, équilibre, boss, monde, démarche, repos, vol -----
         Zone("1", 4, "ENCOUNTER !", 35, 60,
-            Foe("Slime", "slime", 2, 2, 40, 2.0f, 6, 1.0f, 18, false, world),
-            Foe("Slime", "slime", 5, -2, 40, 2.0f, 6, 1.0f, 18, false, world),
-            Foe("Chauve-souris", "bat", 6, 1, 30, 4.0f, 5, 0.9f, 12, false, world));
+            Foe("Slime", "slime", 2, 2, 40, 2.0f, 6, 18, false, world, "walk_hop", "idle_squash"),
+            Foe("Slime", "slime", 5, -2, 40, 2.0f, 6, 18, false, world, "walk_hop", "idle_squash"),
+            Foe("Chauve-souris", "bat", 6, 1, 30, 4.0f, 5, 12, false, world, "walk_flap", "idle_hover", 1.0f));
         Zone("2", 16, "ENCOUNTER !", 70, 120,
-            Foe("Araignée", "spider", 14, 2, 55, 3.0f, 8, 1.0f, 25, false, world),
-            Foe("Cultiste", "cultist", 17, -2, 70, 2.5f, 9, 1.1f, 30, false, world),
-            Foe("Araignée", "spider", 19, 2, 55, 3.0f, 8, 1.0f, 25, false, world));
+            Foe("Araignée", "spider", 14, 2, 55, 3.0f, 8, 25, false, world, "walk_scuttle"),
+            Foe("Cultiste", "cultist", 17, -2, 70, 2.5f, 9, 30, false, world, "walk_waddle"),
+            Foe("Araignée", "spider", 19, 2, 55, 3.0f, 8, 25, false, world, "walk_scuttle"));
         Zone("Boss", 27, "BOSS BATTLE !", 180, 400,
-            Foe("Cyclope (boss)", "brute", 28, 0, 320, 2.2f, 16, 1.8f, 90, true, world),
-            Foe("Chauve-souris", "bat", 25, 3, 30, 4.0f, 5, 0.9f, 12, false, world),
-            Foe("Chauve-souris", "bat", 25, -3, 30, 4.0f, 5, 0.9f, 12, false, world));
+            Foe("Cyclope (boss)", "brute_boss", 28, 0, 320, 2.2f, 16, 90, true, world, "walk_stomp"),
+            Foe("Chauve-souris", "bat", 25, 3, 30, 4.0f, 5, 12, false, world, "walk_flap", "idle_hover", 1.0f),
+            Foe("Chauve-souris", "bat", 25, -3, 30, 4.0f, 5, 12, false, world, "walk_flap", "idle_hover", 1.0f));
 
         // ----- caméra -----
         var cam = Camera.main;
@@ -236,6 +245,7 @@ public static class GameSetupMenu
             cam.fieldOfView = 38f;
             var cf = cam.gameObject.AddComponent<CameraFollow>();
             cf.target = player.transform; cf.offset = new Vector3(0, 4f, -9f);
+            cf.pixelPerfect = true; cf.pixelsPerUnit = 24f; cf.baseHeight = 180f;   // 320x180 -> x6 en 1080p
         }
 
         string path = SceneDir + "/TestArena.unity";

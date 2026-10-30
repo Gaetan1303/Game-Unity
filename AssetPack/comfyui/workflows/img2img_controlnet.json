@@ -1,0 +1,190 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Checkpoint"
+    },
+    "inputs": {
+      "ckpt_name": "VOTRE_MODELE.safetensors"
+    }
+  },
+  "2": {
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "Lora"
+    },
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "clip": [
+        "1",
+        1
+      ],
+      "lora_name": "VOTRE_LORA.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Positive Prompt"
+    },
+    "inputs": {
+      "text": "positive",
+      "clip": [
+        "2",
+        1
+      ]
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Negative Prompt"
+    },
+    "inputs": {
+      "text": "negative",
+      "clip": [
+        "2",
+        1
+      ]
+    }
+  },
+  "5": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Input Image"
+    },
+    "inputs": {
+      "image": "example.png"
+    }
+  },
+  "6": {
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    },
+    "inputs": {
+      "pixels": [
+        "5",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "7": {
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "Sampler"
+    },
+    "inputs": {
+      "model": [
+        "2",
+        0
+      ],
+      "seed": 1234,
+      "steps": 28,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "12",
+        1
+      ],
+      "latent_image": [
+        "6",
+        0
+      ],
+      "denoise": 0.5
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    },
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save"
+    },
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "assetpack/out"
+    }
+  },
+  "10": {
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "ControlNet Loader"
+    },
+    "inputs": {
+      "control_net_name": "VOTRE_CONTROLNET_CANNY_OU_LINEART.safetensors"
+    }
+  },
+  "11": {
+    "class_type": "Canny",
+    "_meta": {
+      "title": "Canny"
+    },
+    "inputs": {
+      "image": [
+        "5",
+        0
+      ],
+      "low_threshold": 0.4,
+      "high_threshold": 0.8
+    }
+  },
+  "12": {
+    "class_type": "ControlNetApplyAdvanced",
+    "_meta": {
+      "title": "ControlNet Apply"
+    },
+    "inputs": {
+      "positive": [
+        "3",
+        0
+      ],
+      "negative": [
+        "4",
+        0
+      ],
+      "control_net": [
+        "10",
+        0
+      ],
+      "image": [
+        "11",
+        0
+      ],
+      "strength": 0.6,
+      "start_percent": 0.0,
+      "end_percent": 0.8
+    }
+  }
+}
