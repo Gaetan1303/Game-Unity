@@ -16,6 +16,9 @@
 .venv
 nettoyage/
 
+# Ignore the local clone nested inside the workspace.
+/Game-Unity/
+
 # AssetPack : essais intermédiaires ComfyUI
 AssetPack/comfy_output/_variants/
 AssetPack/tools/__pycache__/
