@@ -1,0 +1,17 @@
+{
+ "_doc": "Réglages texte->image pour monstres/alliés (reprend ton pixelArt.json). {subject} = description de assets.json. Fond vert obligatoire (le détourage de ingest.py en dépend).",
+ "seed": 1996305139,
+ "model": {
+  "ckpt": "amanatsuIllustrious_v11.safetensors",
+  "lora": "pixel-art-xl-v1.1.safetensors",
+  "lora_strength": 0.65,
+  "steps": 30,
+  "cfg": 6.0,
+  "sampler": "dpmpp_2m",
+  "scheduler": "karras",
+  "size": 512,
+  "colors": 32
+ },
+ "positive": "masterpiece, best quality, (pixel art:0.85), anime style, solo, full body, front view, centered, (green background:1.35), {subject}, thick dark outlines, flat colors, limited palette, retro game sprite",
+ "negative": "(worst quality, low quality:1.4), blurry, jpeg artifacts, anti-aliasing, smooth shading, gradient, text, watermark, signature, multiple views, multiple characters, cropped, out of frame, plain white background, drop shadow, ground shadow, scenery, 3d, render, photorealistic"
+}
