@@ -4,17 +4,14 @@ using UnityEngine;
 /// <summary>HUD en OnGUI (aucun Canvas à configurer), résolution virtuelle 1080p.</summary>
 public class Hud : MonoBehaviour
 {
-    Health hp; PlayerStats stats; ArteCaster caster; TargetSelector sel; PlayerController pc;
+    Health hp; PlayerStats stats; ArteCaster caster; TargetSelector sel;
     GUIStyle st;
     float W; const float H = 1080f;
-    EnemyAI[] enemies = new EnemyAI[0];
-    AllyAI[] allies = new AllyAI[0];
-    float nextScan;
 
     void Start()
     {
         hp = GetComponent<Health>(); stats = GetComponent<PlayerStats>();
-        caster = GetComponent<ArteCaster>(); sel = GetComponent<TargetSelector>(); pc = GetComponent<PlayerController>();
+        caster = GetComponent<ArteCaster>(); sel = GetComponent<TargetSelector>();
     }
 
     // ---------- helpers ----------
@@ -45,14 +42,6 @@ public class Hud : MonoBehaviour
         return true;
     }
 
-    void Scan()
-    {
-        if (Time.time < nextScan) return;
-        nextScan = Time.time + 0.4f;
-        enemies = FindObjectsByType<EnemyAI>(FindObjectsSortMode.None);
-        allies = FindObjectsByType<AllyAI>(FindObjectsSortMode.None);
-    }
-
     string DirLabel(ArteDir d, string btn)
     {
         switch (d)
@@ -79,7 +68,6 @@ public class Hud : MonoBehaviour
     {
         if (hp == null) return;
         if (st == null) { st = new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold, wordWrap = false }; }
-        Scan();
         float s = Screen.height / H;
         W = Screen.width / s;
         GUI.matrix = Matrix4x4.Scale(new Vector3(s, s, 1f));
@@ -90,7 +78,7 @@ public class Hud : MonoBehaviour
         Txt(new Rect(20, 8, 1800, 24), "ZQSD: ligne/profondeur | J: attaque (+direction = artes) | K: technique (+direction) | Ctrl: garde | Maj: course libre | Espace: saut | Tab: cible | L: Overlimit | H: objet", 15);
 
         // --- barres des ennemis en combat ---
-        foreach (var e in enemies)
+        foreach (var e in EnemyAI.All)
         {
             if (e == null || !e.Active) continue;
             var eh = e.GetComponent<Health>(); if (eh == null || eh.IsDead) continue;
@@ -113,7 +101,7 @@ public class Hud : MonoBehaviour
         Txt(new Rect(420, py + 58, 200, 26), $"TP {stats.Tp:0}/{stats.MaxTp:0}", 18);
 
         float ay = py - 40f;
-        foreach (var a in allies)
+        foreach (var a in AllyAI.All)
         {
             if (a == null) continue;
             var ah = a.GetComponent<Health>(); if (ah == null) continue;
@@ -175,7 +163,7 @@ public class Hud : MonoBehaviour
             Txt(new Rect(box.x + 50, y, 560, 30), $"Temps  {r.time:0}s", 26); y += 38;
             Txt(new Rect(box.x + 420, box.y + 90, 200, 120), r.grade, 110, TextAnchor.UpperCenter, new Color(1f, 0.8f, 0.2f));
             if (r.levelsGained > 0) Txt(new Rect(box.x, y, box.width, 30), $"NIVEAU SUPÉRIEUR ! Nv.{stats.level}", 26, TextAnchor.UpperCenter, new Color(0.6f, 1f, 0.6f));
-            Txt(new Rect(box.x, box.yMax - 40, box.width, 30), "Entrée / J pour continuer", 18, TextAnchor.UpperCenter);
+            Txt(new Rect(box.x, box.yMax - 40, box.width, 30), "Entrée pour continuer", 18, TextAnchor.UpperCenter);
         }
 
         if (hp.IsDead) Txt(new Rect(0, H * 0.4f, W, 100), "GAME OVER", 90, TextAnchor.UpperCenter, new Color(0.9f, 0.2f, 0.2f));

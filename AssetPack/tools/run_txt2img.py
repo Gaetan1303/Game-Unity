@@ -59,11 +59,12 @@ def main():
             seed = base_seed + v
             wf = copy.deepcopy(template)
             ck = by_title(wf, "Checkpoint"); wf[ck]["inputs"]["ckpt_name"] = a.ckpt or m["ckpt"]
-            lora = by_title(wf, "Lora"); lora_name = a.lora if a.lora is not None else m.get("lora", "")
-            if lora_name:
-                wf[lora]["inputs"].update(lora_name=lora_name, strength_model=m["lora_strength"], strength_clip=m["lora_strength"])
-            else:
-                remove_node(wf, lora, {0: [ck, 0], 1: [ck, 1]})
+            lora = by_title(wf, "Lora", required=False); lora_name = a.lora if a.lora is not None else m.get("lora", "")
+            if lora is not None:
+                if lora_name:
+                    wf[lora]["inputs"].update(lora_name=lora_name, strength_model=m["lora_strength"], strength_clip=m["lora_strength"])
+                else:
+                    remove_node(wf, lora, {0: [ck, 0], 1: [ck, 1]})
             pos = cfg["positive"].replace("{subject}", ", ".join(x for x in [subject, a.extra] if x))
             wf[by_title(wf, "Positive Prompt")]["inputs"]["text"] = pos
             wf[by_title(wf, "Negative Prompt")]["inputs"]["text"] = cfg["negative"]

@@ -18,22 +18,26 @@ public static class CombatUtil
 
     public static float ScreenFacingDot(Transform actor) => Vector3.Dot(actor.forward, ScreenRight);
 
+    // tampon réutilisé : OverlapSphereNonAlloc évite une allocation par appel (les projectiles appellent Hit à chaque image)
+    static readonly Collider[] buffer = new Collider[64];
+
     /// <summary>(cible, dégâts, dégâts réellement infligés)</summary>
     public static event System.Action<Health, DamageInfo, float> HitLanded;
 
     /// <summary>Zone cylindrique 2,5D : rayon horizontal + tolérance verticale (permet de toucher les ennemis projetés).</summary>
     public static int Hit(Vector3 center, float radius, Team attacker, float damage, Vector3 dir, float knockback,
                           float poise = 15f, float launch = 0f, bool knockdown = false, bool magic = false,
-                          HashSet<Health> already = null)
+                          HashSet<Health> already = null, bool fromHero = false)
     {
         var seen = already ?? new HashSet<Health>();
         int n = 0;
         float scale = 1f;
         if (attacker == Team.Player && ComboTracker.Instance != null) scale = ComboTracker.Instance.DamageScale;
 
-        foreach (var c in Physics.OverlapSphere(center, radius + VerticalTolerance + 0.5f))
+        int count = Physics.OverlapSphereNonAlloc(center, radius + VerticalTolerance + 0.5f, buffer);
+        for (int i = 0; i < count; i++)
         {
-            var h = c.GetComponentInParent<Health>();
+            var h = buffer[i].GetComponentInParent<Health>();
             if (h == null || h.team == attacker || h.IsDead || seen.Contains(h)) continue;
 
             Vector3 p = h.transform.position;
@@ -50,7 +54,7 @@ public static class CombatUtil
             var info = new DamageInfo
             {
                 amount = damage * scale, knockback = d * knockback, poiseDamage = poise,
-                launch = launch, knockdown = knockdown, magic = magic, source = attacker
+                launch = launch, knockdown = knockdown, magic = magic, source = attacker, fromHero = fromHero
             };
             float dealt = h.TakeDamage(info);
             if (dealt <= 0f && info.amount > 0f) continue;   // garde parfaite
@@ -58,7 +62,8 @@ public static class CombatUtil
             Fx.Hit(p + Vector3.up * 1f);
             HitLanded?.Invoke(h, info, dealt);
             bool big = launch > 0f || poise >= 30f || knockdown;
-            if (GameManager.Instance != null) GameManager.Instance.HitStop(big ? 0.07f : 0.035f);
+            // arrêt sur image : seulement pour les coups du héros (sinon le combat à 4 est quasi en permanence au ralenti)
+            if (fromHero && GameManager.Instance != null) GameManager.Instance.HitStop(big ? 0.07f : 0.035f);
             CameraFollow.Shake(big ? 0.25f : 0.08f);
             n++;
         }

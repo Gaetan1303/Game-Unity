@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     void OnDisable() { CombatUtil.HitLanded -= OnHitLanded; }
 
     // un coup qui touche ouvre une fenêtre d'annulation : on peut enchaîner un arte
-    void OnHitLanded(Health t, DamageInfo d, float dealt) { if (d.source == Team.Player) cancelUntil = Time.time + 0.5f; }
+    void OnHitLanded(Health t, DamageInfo d, float dealt) { if (d.fromHero) cancelUntil = Time.time + 0.5f; }   // (avant : un coup d'allié ouvrait aussi la fenêtre)
 
     void Start()
     {
@@ -74,7 +74,14 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(2f);
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        var scene = SceneManager.GetActiveScene();
+        if (scene.buildIndex < 0)
+        {
+            Debug.LogError($"La scène '{scene.name}' n'est pas dans le Build Settings : impossible de recharger après le game over. " +
+                           "Ajoutez-la (File > Build Profiles > Scene List) ou relancez le menu Jeu > 2 - Créer l'arène de test.");
+            yield break;
+        }
+        SceneManager.LoadScene(scene.buildIndex);
     }
 
     public void SetLock(float seconds) { lockUntil = Time.time + seconds; }
@@ -204,7 +211,7 @@ public class PlayerController : MonoBehaviour
         bool fin = comboIdx == 3;
         float dmg = attackDamage * stats.AttackMultiplier * (fin ? 1.8f : 1f);
         Vector3 c = transform.position + transform.forward * attackReach * 0.6f;
-        int n = CombatUtil.Hit(c, attackRadius, Team.Player, dmg, transform.forward, fin ? 9f : 2f, fin ? 35f : 9f);
+        int n = CombatUtil.Hit(c, attackRadius, Team.Player, dmg, transform.forward, fin ? 9f : 2f, fin ? 35f : 9f, fromHero: true);
         if (n > 0) stats.AddTp(2f * n);
     }
 }

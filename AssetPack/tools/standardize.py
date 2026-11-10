@@ -139,6 +139,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-install", action="store_true")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--force", action="store_true", help="écrase aussi les sprites d'Unity modifiés depuis la dernière norme (ex. frames générées avec ingest.py)")
     args = ap.parse_args()
     std = load_json(PACK / "standard.json")
     bad = 0
@@ -156,6 +157,8 @@ def main():
         print("Norme respectée." if not bad else f"{bad} problème(s).")
         raise SystemExit(1 if bad else 0)
 
+    # état précédent de source/ : sert à détecter un sprite d'Unity modifié depuis (ingest.py, retouche manuelle...)
+    previous = {(c, p.name): p.read_bytes() for c in std["categories"] for p in (PACK / "source" / c).glob("*.png")}
     done = 0
     for cat, spec in std["categories"].items():
         (PACK / "source" / cat).mkdir(parents=True, exist_ok=True)
@@ -172,11 +175,18 @@ def main():
     print(f"{done} sprites mis aux normes dans source/")
 
     if not args.no_install:
+        skipped = []
         for cat, spec in std["categories"].items():
             dst = UNITY_SPRITES / spec["folder"]
             dst.mkdir(parents=True, exist_ok=True)
-            for p in (PACK / "source" / cat).glob("*.png"):
-                (dst / p.name).write_bytes(p.read_bytes())
+            for p in sorted((PACK / "source" / cat).glob("*.png")):
+                target, new = dst / p.name, p.read_bytes()
+                if target.exists() and not args.force:
+                    cur = target.read_bytes()
+                    if cur != new and cur != previous.get((cat, p.name)):
+                        skipped.append(f"{spec['folder']}/{p.name}")      # modifié depuis la dernière norme : on le garde
+                        continue
+                target.write_bytes(new)
         cfg = load_json(SPRITE_PACK_CFG)
         for f in cfg["folders"]:
             spec = next((s for s in std["categories"].values() if s["folder"] == f["folder"]), None)
@@ -184,6 +194,8 @@ def main():
                 ppu = spec.get("ppu", std["ppu"])
                 f["base_ppu"] = ppu; f["ppu"] = ppu; f["filter"] = "Point"
         save_json(SPRITE_PACK_CFG, cfg)
+        if skipped:
+            print(f"  ⚠ {len(skipped)} sprite(s) d'Unity NON écrasés car modifiés depuis la dernière norme : {', '.join(skipped[:6])}{'…' if len(skipped) > 6 else ''}\n    (--force pour les remplacer par la version standardisée)")
         print("Installé dans Assets/_Project/Resources/Sprites + SpritePack.json (PPU unifié). Dans Unity : Jeu > 0 - Importer les sprites")
 
 

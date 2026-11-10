@@ -23,3 +23,7 @@ nettoyage/
 AssetPack/comfy_output/_variants/
 AssetPack/tools/__pycache__/
 __pycache__/
+
+# Solution Unity 6 (générée) et réglages d'éditeur personnels
+*.slnx
+.vscode/

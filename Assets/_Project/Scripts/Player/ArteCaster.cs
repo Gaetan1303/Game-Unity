@@ -38,6 +38,16 @@ public class ArteCaster : MonoBehaviour
         stats = GetComponent<PlayerStats>();
         sel = GetComponent<TargetSelector>();
         kn = GetComponent<Knockable>();
+        GetComponent<Health>().OnStaggered += _ => Interrupt();   // un coup qui fait vaciller interrompt l'incantation
+    }
+
+    void Interrupt()
+    {
+        if (!IsCasting) return;
+        if (running != null) StopCoroutine(running);
+        running = null;
+        IsCasting = false; inRecovery = false;
+        Say("Interrompu !");
     }
 
     public void TryStandard(ArteDir d) { if (d != ArteDir.Neutral) Try(standard[(int)d]); }

@@ -4,9 +4,9 @@ using UnityEngine;
 /// <summary>Photon : un cercle runique se dessine au sol, puis une colonne de lumière explose.</summary>
 public class AreaBlast : MonoBehaviour
 {
-    public void Run(Team t, ArteData a, string rune, float dmgMul) { StartCoroutine(Go(t, a, rune, dmgMul)); }
+    public void Run(Team t, ArteData a, string rune, float dmgMul, bool fromHero = false) { StartCoroutine(Go(t, a, rune, dmgMul, fromHero)); }
 
-    IEnumerator Go(Team t, ArteData a, string rune, float dmgMul)
+    IEnumerator Go(Team t, ArteData a, string rune, float dmgMul, bool fromHero)
     {
         Vector3 c = transform.position;
         Fx.Spawn(rune, c, 0.6f, a.radius * 2f, a.tint, a.blastDelay + 0.05f, spin: 120f, flat: true, order: -80);
@@ -19,7 +19,7 @@ public class AreaBlast : MonoBehaviour
             Fx.Spawn("star_09", c + Vector3.up * 1.2f, a.radius * 1.0f, a.radius * 2.6f, Color.white, 0.35f, spin: 60f, order: 70);
             Fx.Spawn("star_04", c + Vector3.up * 3f, 1.4f, 0.6f, a.tint, 0.4f, stretchY: 5f, order: 69);
             Fx.Spawn("circle_02", c + Vector3.up * 0.1f, a.radius * 0.6f, a.radius * 2.6f, Color.white, 0.4f, flat: true, order: -78);
-            CombatUtil.Hit(c, a.radius, t, a.damage * dmgMul, Vector3.zero, a.knockback, a.poise, a.launch, a.knockdown, true);
+            CombatUtil.Hit(c, a.radius, t, a.damage * dmgMul, Vector3.zero, a.knockback, a.poise, a.launch, a.knockdown, true, null, fromHero);
             if (i < a.hits - 1) yield return new WaitForSeconds(a.hitInterval);
         }
         Destroy(gameObject, 0.1f);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Team { Player, Enemy }
@@ -25,7 +26,16 @@ public class Health : MonoBehaviour
     public event Action OnDied;
     public event Action OnPerfectGuard;
 
+    /// <summary>Registre de tous les Health actifs : évite les FindObjectsByType dans les IA (allocations par image).</summary>
+    public static readonly List<Health> All = new List<Health>();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetRegistry() { All.Clear(); }
+
     float lastHit;
+
+    void OnEnable() { All.Add(this); }
+    void OnDisable() { All.Remove(this); }
 
     void Awake() { Current = maxHp; Poise = maxPoise; }
 

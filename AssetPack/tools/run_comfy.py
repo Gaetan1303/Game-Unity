@@ -59,10 +59,14 @@ def upload_image(server, path, name):
 
 
 # ---------------------------------------------------------------- manipulation du workflow
-def by_title(wf, title):
+def by_title(wf, title, required=True):
+    """Id du noeud dont _meta.title == title. Si absent : message clair (ou None si required=False)."""
     for nid, n in wf.items():
         if n.get("_meta", {}).get("title") == title:
             return nid
+    if required:
+        sys.exit(f"Le workflow n'a pas de noeud intitulé « {title} » (champ _meta.title). "
+                 "Les lanceurs retrouvent les noeuds par leur titre : vérifie le fichier workflow.")
     return None
 
 
@@ -81,7 +85,7 @@ def build_workflow(template, a, style, entry, image_name, seed, prefix):
     if a.ckpt:
         wf[ck]["inputs"]["ckpt_name"] = a.ckpt
 
-    lora = by_title(wf, "Lora")
+    lora = by_title(wf, "Lora", required=False)
     if lora:
         if a.lora:
             wf[lora]["inputs"]["lora_name"] = a.lora
@@ -90,7 +94,7 @@ def build_workflow(template, a, style, entry, image_name, seed, prefix):
         else:
             remove_node(wf, lora, {0: [ck, 0], 1: [ck, 1]})
 
-    cnl = by_title(wf, "ControlNet Loader")
+    cnl = by_title(wf, "ControlNet Loader", required=False)
     if cnl:
         if not a.controlnet:
             sys.exit("Ce workflow utilise un ControlNet : ajoute --controlnet NOM.safetensors")
@@ -117,12 +121,13 @@ def wait_result(server, pid, timeout):
         if pid in hist:
             h = hist[pid]
             if h.get("status", {}).get("status_str") == "error":
-                raise RuntimeError(f"ComfyUI a signalé une erreur : {json.dumps(h['status'])[:400]}")
+                sys.exit("ComfyUI a signalé une erreur pour cette image (modèle, LoRA ou ControlNet introuvable ? "
+                         f"vérifie les noms dans ComfyUI) : {json.dumps(h['status'])[:400]}")
             for out in h.get("outputs", {}).values():
                 if out.get("images"):
                     return out["images"][0]
         time.sleep(0.7)
-    raise TimeoutError("ComfyUI n'a pas répondu à temps")
+    sys.exit(f"ComfyUI n'a pas terminé en {timeout} s (augmente --timeout, ou regarde la file d'attente de ComfyUI).")
 
 
 def main():

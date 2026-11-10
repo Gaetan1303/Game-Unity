@@ -28,6 +28,7 @@ public static class ArteExecutor
     public static IEnumerator Run(ArteData a, Team team, Transform self, Transform target, float dmgMul,
                                   System.Action<int> onHits, System.Action onRecovery)
     {
+        bool heroCast = self.GetComponent<PlayerController>() != null;   // seuls les coups du héros déclenchent arrêt sur image / annulation
         Vector3 feet = new Vector3(self.position.x, 0.05f, self.position.z);
         Fx.Spawn("magic_01", feet, 1.2f, 2.8f, a.tint, a.windup + 0.25f, spin: 200f, flat: true, order: -80);
         yield return new WaitForSeconds(a.windup);
@@ -45,7 +46,7 @@ public static class ArteExecutor
                 var fx = Fx.SpawnDirected(FxName(a), pos, new Vector2(side, 0f), size, size, a.tint, float.PositiveInfinity, 60);
                 var go = fx != null ? fx.gameObject : new GameObject("Wave");
                 go.transform.position = pos;
-                go.AddComponent<ArteProjectile>().Init(team, dir, a, dmgMul, true, null);
+                go.AddComponent<ArteProjectile>().Init(team, dir, a, dmgMul, true, null, heroCast);
                 Fx.Spawn("scorch_03", pos, 1f, 2.2f, a.tint, 0.25f, order: 58);
                 break;
             }
@@ -55,7 +56,7 @@ public static class ArteExecutor
                 var fx = Fx.Spawn(FxName(a), pos, 1.4f, 1.4f, a.tint, float.PositiveInfinity, spin: 360f, order: 60);
                 var go = fx != null ? fx.gameObject : new GameObject("Orb");
                 go.transform.position = pos;
-                go.AddComponent<ArteProjectile>().Init(team, dir, a, dmgMul, false, target);
+                go.AddComponent<ArteProjectile>().Init(team, dir, a, dmgMul, false, target, heroCast);
                 break;
             }
             case ArteKind.Launcher:
@@ -63,7 +64,7 @@ public static class ArteExecutor
                 float uside = CombatUtil.ScreenFacingDot(self) < -0.01f ? -1f : 1f;
                 Fx.SpawnDirected(FxName(a), self.position + dir * 1.3f + Vector3.up * 0.6f,
                                  new Vector2(uside * 0.5f, 1f), 2.0f, 3.8f, a.tint, 0.22f, 60);
-                int n = CombatUtil.Hit(self.position + dir * 1.2f, a.radius, team, dmg, dir, a.knockback, a.poise, a.launch, a.knockdown);
+                int n = CombatUtil.Hit(self.position + dir * 1.2f, a.radius, team, dmg, dir, a.knockback, a.poise, a.launch, a.knockdown, fromHero: heroCast);
                 onHits?.Invoke(n);
                 break;
             }
@@ -73,7 +74,7 @@ public static class ArteExecutor
                 pos.y = 0.05f;
                 var go = new GameObject("Photon");
                 go.transform.position = pos;
-                go.AddComponent<AreaBlast>().Run(team, a, FxName(a), dmgMul);
+                go.AddComponent<AreaBlast>().Run(team, a, FxName(a), dmgMul, heroCast);
                 break;
             }
             case ArteKind.Strike:
@@ -84,7 +85,7 @@ public static class ArteExecutor
                 yield return new WaitForSeconds(a.blastDelay);
                 Fx.Spawn(FxName(a), pos + Vector3.up * 3f, 2.4f, 2.4f, a.tint, 0.28f, stretchY: 3.2f, order: 70);
                 Fx.Spawn("star_09", pos + Vector3.up * 0.8f, a.radius, a.radius * 2.5f, Color.white, 0.3f, order: 71);
-                int n = CombatUtil.Hit(pos, a.radius, team, dmg, Vector3.zero, a.knockback, a.poise, a.launch, a.knockdown, true);
+                int n = CombatUtil.Hit(pos, a.radius, team, dmg, Vector3.zero, a.knockback, a.poise, a.launch, a.knockdown, true, fromHero: heroCast);
                 onHits?.Invoke(n);
                 break;
             }
@@ -100,7 +101,7 @@ public static class ArteExecutor
                     bool last = i == a.hits - 1;
                     int n = CombatUtil.Hit(c, a.radius, team, dmg, last ? dir : Vector3.zero,
                                            last ? a.knockback * 2f : a.knockback * 0.2f,
-                                           last ? a.poise : 5f, 0f, last && a.knockdown);
+                                           last ? a.poise : 5f, 0f, last && a.knockdown, fromHero: heroCast);
                     onHits?.Invoke(n);
                     yield return new WaitForSeconds(a.hitInterval);
                 }
@@ -108,7 +109,7 @@ public static class ArteExecutor
             }
             case ArteKind.Heal:
             {
-                foreach (var h in Object.FindObjectsByType<Health>(FindObjectsSortMode.None))
+                foreach (var h in Health.All)
                 {
                     if (h.team != team || h.IsDead) continue;
                     if (Vector3.Distance(h.transform.position, self.position) > 14f) continue;

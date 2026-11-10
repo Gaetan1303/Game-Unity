@@ -9,4 +9,5 @@ public struct DamageInfo
     public bool knockdown;      // met à terre
     public bool magic;
     public Team source;
+    public bool fromHero;       // coup porté par le héros (arrêt sur image, fenêtre d'annulation)
 }

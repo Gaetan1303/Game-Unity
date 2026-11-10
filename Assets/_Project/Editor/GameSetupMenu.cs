@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -25,20 +26,41 @@ public static class GameSetupMenu
         AssetDatabase.CreateFolder(parent, System.IO.Path.GetFileName(path));
     }
 
+    static bool forceDefaults;
+
+    /// <summary>Crée l'arte s'il manque. Un arte existant n'est JAMAIS écrasé (vos réglages restent), sauf via « Réinitialiser les artes ».</summary>
     static ArteData MakeArte(string file, System.Action<ArteData> fill)
     {
         EnsureFolder(ArteDir);
         string path = $"{ArteDir}/{file}.asset";
         var a = AssetDatabase.LoadAssetAtPath<ArteData>(path);
-        if (a == null) { a = ScriptableObject.CreateInstance<ArteData>(); AssetDatabase.CreateAsset(a, path); }
-        fill(a);                       // on réécrit toujours : valeurs à jour
-        EditorUtility.SetDirty(a);
+        bool created = false;
+        if (a == null) { a = ScriptableObject.CreateInstance<ArteData>(); AssetDatabase.CreateAsset(a, path); created = true; }
+        if (created || forceDefaults) { fill(a); EditorUtility.SetDirty(a); }
         return a;
+    }
+
+    [MenuItem("Jeu/Outils/Réinitialiser les artes (écrase vos réglages)")]
+    public static void ResetArtes()
+    {
+        if (!EditorUtility.DisplayDialog("Réinitialiser les artes",
+                "Remet les 7 artes de base à leurs valeurs par défaut. Vos modifications sur ces artes seront perdues.", "Réinitialiser", "Annuler")) return;
+        forceDefaults = true;
+        try { CreateArtes(); } finally { forceDefaults = false; }
+    }
+
+    /// <summary>Ajoute la scène au Build Settings (en premier) : sans cela SceneManager.LoadScene échoue (rechargement après game over, portails).</summary>
+    static void AddToBuildSettings(string scenePath)
+    {
+        var list = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
+        if (list.Exists(s => s.path == scenePath)) return;
+        list.Insert(0, new EditorBuildSettingsScene(scenePath, true));
+        EditorBuildSettings.scenes = list.ToArray();
     }
 
     static ArteData Load(string f) => AssetDatabase.LoadAssetAtPath<ArteData>($"{ArteDir}/{f}.asset");
 
-    [MenuItem("Jeu/1 - Créer les artes de base")]
+    [MenuItem("Jeu/1 - Créer les artes manquants")]
     public static void CreateArtes()
     {
         // ---- Artes STANDARD (touche J + direction) ----
@@ -175,6 +197,9 @@ public static class GameSetupMenu
     [MenuItem("Jeu/2 - Créer l'arène de test")]
     public static void BuildArena()
     {
+        if (System.IO.File.Exists(SceneDir + "/TestArena.unity") &&
+            !EditorUtility.DisplayDialog("Arène de test", "TestArena.unity existe déjà. La recréer écrase vos modifications manuelles de cette scène.", "Recréer", "Annuler"))
+            return;
         ImportSprites();
         CreateArtes();
         EnsureFolder(WorldDir); EnsureFolder(SceneDir);
@@ -250,6 +275,7 @@ public static class GameSetupMenu
 
         string path = SceneDir + "/TestArena.unity";
         EditorSceneManager.SaveScene(scene, path);
+        AddToBuildSettings(path);
         AssetDatabase.SaveAssets();
         Debug.Log("Arène créée : " + path + " — clique dans Game puis Play !");
     }

@@ -1,9 +1,19 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController), typeof(Health), typeof(Knockable))]
 public class EnemyAI : MonoBehaviour
 {
+    /// <summary>Registre des ennemis actifs (TargetSelector, alliés, HUD) : pas de recherche dans la scène.</summary>
+    public static readonly List<EnemyAI> All = new List<EnemyAI>();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetRegistry() { All.Clear(); }
+
+    void OnEnable() { All.Add(this); }
+    void OnDisable() { All.Remove(this); }
+
     public float moveSpeed = 3f;
     public float aggroRange = 14f;
     public float attackRange = 1.8f;
@@ -30,6 +40,7 @@ public class EnemyAI : MonoBehaviour
     float nextAtk, vy, nextRetarget;
     int atkCount;
     bool attacking;
+    Coroutine atkRoutine;
 
     void Awake()
     {
@@ -44,6 +55,7 @@ public class EnemyAI : MonoBehaviour
         hp.maxPoise = maxPoise;
         hp.Init(maxHp);
         hp.OnDied += OnDied;
+        hp.OnStaggered += _ => InterruptAttack();   // un coup qui fait vaciller annule l'attaque en cours
     }
 
     void OnDied()
@@ -57,12 +69,20 @@ public class EnemyAI : MonoBehaviour
     {
         nextRetarget = Time.time + 0.4f;
         float best = float.MaxValue; target = null;
-        foreach (var h in FindObjectsByType<Health>(FindObjectsSortMode.None))
+        foreach (var h in Health.All)
         {
             if (h.team != Team.Player || h.IsDead) continue;
             float d = (h.transform.position - transform.position).sqrMagnitude;
             if (d < best) { best = d; target = h.transform; }
         }
+    }
+
+    void InterruptAttack()
+    {
+        if (atkRoutine != null) StopCoroutine(atkRoutine);
+        atkRoutine = null;
+        attacking = false;
+        nextAtk = Time.time + attackCooldown * 0.5f;
     }
 
     void Update()
@@ -73,7 +93,7 @@ public class EnemyAI : MonoBehaviour
         Vector3 move = Vector3.zero;
         if (Active && !attacking)
         {
-            if (Time.time >= nextRetarget || target == null) Retarget();
+            if (Time.time >= nextRetarget) Retarget();   // (avant : '|| target == null' relançait la recherche à CHAQUE image sans cible)
             if (target != null)
             {
                 Vector3 to = target.position - transform.position; to.y = 0;
@@ -82,7 +102,7 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (to.sqrMagnitude > 0.01f) transform.rotation = Quaternion.LookRotation(to);
                     if (d > attackRange * 0.9f) move = to.normalized * moveSpeed;
-                    else if (Time.time >= nextAtk) StartCoroutine(Attack());
+                    else if (Time.time >= nextAtk) atkRoutine = StartCoroutine(Attack());
                 }
             }
         }

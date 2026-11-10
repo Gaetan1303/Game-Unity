@@ -11,7 +11,7 @@ public class TargetSelector : MonoBehaviour
     List<Transform> Enemies()
     {
         var list = new List<Transform>();
-        foreach (var e in FindObjectsByType<EnemyAI>(FindObjectsSortMode.None))
+        foreach (var e in EnemyAI.All)
         {
             var h = e.GetComponent<Health>();
             if (!e.Active || h == null || h.IsDead) continue;

@@ -33,5 +33,6 @@ public static class GameInput
     public static bool SwitchTargetPressed() => Key(k => k.tabKey.wasPressedThisFrame) || Pad(g => g.rightShoulder.wasPressedThisFrame);
     public static bool OverlimitPressed() => Key(k => k.lKey.wasPressedThisFrame) || Pad(g => g.rightTrigger.wasPressedThisFrame);
     public static bool ItemPressed() => Key(k => k.hKey.wasPressedThisFrame) || Pad(g => g.buttonNorth.wasPressedThisFrame);
-    public static bool ConfirmPressed() => Key(k => k.enterKey.wasPressedThisFrame || k.jKey.wasPressedThisFrame) || Pad(g => g.buttonSouth.wasPressedThisFrame);
+    // Confirmer : Entrée ou bouton Sud de la manette. Pas la touche J (c'est l'attaque : on fermait l'écran de résultats en martelant).
+    public static bool ConfirmPressed() => Key(k => k.enterKey.wasPressedThisFrame || k.numpadEnterKey.wasPressedThisFrame) || Pad(g => g.buttonSouth.wasPressedThisFrame);
 }
